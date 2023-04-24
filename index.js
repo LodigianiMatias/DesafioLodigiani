@@ -18,9 +18,9 @@ class ProductManager {
         }
     }
 
-    async addProduct(title, desc, price, thumbnail, code, stock, id = this.products.lenght > 0 ? this.products.lenght - 1 : ProductManager.#id + 1) {
+    async addProduct(title, desc, price, thumbnail, code, stock) {
         let productsObject = {
-            id: id,
+            id: ProductManager.#id+1,
             title: title,
             desc: desc,
             price: price,
@@ -33,12 +33,12 @@ class ProductManager {
         if (verify != undefined) {
             throw new Error("El codigo del producto ya existe")
         }
-        if (title == "" ||
-            desc == "" ||
-            price == "" ||
-            thumbnail == "" ||
-            code == "" ||
-            stock == "") {
+        if (!title ||
+            !desc ||
+            !price ||
+            !thumbnail ||
+            !code ||
+            !stock) {
             throw new Error("Debe completar todos los campos obligatoriamente")
         }
         const arrayAux = JSON.parse(await fs.promises.readFile(this.path, 'utf-8'))
@@ -94,7 +94,7 @@ async function test() {
 
     // METODO ADD PRODUCT
 
-    await product.addProduct("Nuez", "Nuez Extra Light de Mendoza", 400, "sin ruta", 100, 10);
+    // await product.addProduct("Nuez", "Nuez Extra Light de Mendoza", 400, "sin ruta", 100, 10);
     // await product.addProduct("Miel", "Colmena de cristal", 500, "sin ruta", 101, 10);
     // await product.addProduct("Almendra", "Non Pareil chilena", 400, "sin ruta", 124352, 10);
 
@@ -104,7 +104,7 @@ async function test() {
 
 
     // METODO UPDATE PRODUCT
-    // await product.updateProduct(1, "Pochoclos", "Bolsa x100grs", 150, "sin ruta", 104, 300);
+    await product.updateProduct(1, "Pochoclos", "Bolsa x100grs", 150, "sin ruta", 104, 300);
 
     // METODO GET PRODUCTS
     console.log(await product.getProducts())
