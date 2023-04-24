@@ -18,9 +18,9 @@ class ProductManager {
         }
     }
 
-    async addProduct(title, desc, price, thumbnail, code, stock, id = this.products.lenght > 0 ? this.products.lenght - 1 : ProductManager.#id + 1) {
+    async addProduct(title, desc, price, thumbnail, code, stock) {
         let productsObject = {
-            id: id,
+            id: ProductManager.#id+1,
             title: title,
             desc: desc,
             price: price,
@@ -33,12 +33,12 @@ class ProductManager {
         if (verify != undefined) {
             throw new Error("El codigo del producto ya existe")
         }
-        if (title == "" ||
-            desc == "" ||
-            price == "" ||
-            thumbnail == "" ||
-            code == "" ||
-            stock == "") {
+        if (!title ||
+            !desc ||
+            !price ||
+            !thumbnail ||
+            !code ||
+            !stock) {
             throw new Error("Debe completar todos los campos obligatoriamente")
         }
         const arrayAux = JSON.parse(await fs.promises.readFile(this.path, 'utf-8'))
