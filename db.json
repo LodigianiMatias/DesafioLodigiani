@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "title": "Nuez",
+    "desc": "Nuez Extra Light de Mendoza",
+    "price": 400,
+    "thumbnail": "sin ruta",
+    "code": 100,
+    "stock": 10
+  },
+  {
+    "id": 2,
+    "title": "Miel",
+    "desc": "Colmena de cristal",
+    "price": 500,
+    "thumbnail": "sin ruta",
+    "code": 101,
+    "stock": 10
+  }
+]

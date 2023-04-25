@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'fs';
 
 class ProductManager {
     static #id = 0;
@@ -94,8 +94,8 @@ async function test() {
 
     // METODO ADD PRODUCT
 
-    await product.addProduct("Nuez", "Nuez Extra Light de Mendoza", 400, "sin ruta", 100, 10);
-    // await product.addProduct("Miel", "Colmena de cristal", 500, "sin ruta", 101, 10);
+    // await product.addProduct("Nuez", "Nuez Extra Light de Mendoza", 400, "sin ruta", 100, 10);
+    await product.addProduct("Miel", "Colmena de cristal", 500, "sin ruta", 101, 10);
     // await product.addProduct("Almendra", "Non Pareil chilena", 400, "sin ruta", 124352, 10);
 
     
