@@ -1,6 +1,6 @@
-const fs = require('fs');
+import fs from 'fs';
 
-class ProductManager {
+export class ProductManager {
     static #id = 0;
     constructor(path) {
         this.products = [];
