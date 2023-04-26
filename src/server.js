@@ -29,7 +29,7 @@ app.get('/products/:pid', async (req, res) => {
         return res.json(userSearch);
     } else {
         return res.status(409).json({
-            error: "objeto no encontrado con el id " + idRequested
+            error: "Objeto no encontrado con el id " + idRequested
         })
     }
 });

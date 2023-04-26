@@ -88,26 +88,3 @@ export class ProductManager {
 }
 
 export default new ProductManager("./src/db.json");
-
-// test();
-// async function test() {
-//     const product = new ProductManager("./src/db.json")
-//     await product.loadData();
-
-//     // METODO ADD PRODUCT
-
-//     // await product.addProduct("Nuez", "Nuez Extra Light de Mendoza", 400, "sin ruta", 100, 10);
-//     // await product.addProduct("Miel", "Colmena de cristal", 500, "sin ruta", 101, 10);
-//     // await product.addProduct("Almendra", "Non Pareil chilena", 400, "sin ruta", 124352, 10);
-
-    
-//     // METODO DELETE PRODUCT
-//     // await product.deleteProduct(3);
-
-
-//     // METODO UPDATE PRODUCT
-//     // await product.updateProduct(1, "Pochoclos", "Bolsa x100grs", 150, "sin ruta", 104, 300);
-
-//     // METODO GET PRODUCTS
-//     console.log(await product.getProducts())
-// }
