@@ -1,28 +1,39 @@
-import { ProductManager } from './index.js';
 import express from "express";
-import fs from 'fs';
+import productManager from './ProductManager.js';
 
 const app = express();
 const PORT = 4000;
 
-let productsInDb = JSON.parse(await fs.promises.readFile('./db.json', 'utf-8'))
-
-app.listen(PORT, () => {
-console.log(`Example app listeningg on port http:localhost.${PORT}`)
-});
-
-app.get('/products', (req, res) => {
-    const limit = req.query.limit;
-
-    if(!limit) {
-        return res.json(productsInDb)
+app.get('/products', async (req, res) => {
+    const products = await productManager.getProducts();
+    const limit = parseInt(req.query.limit);
+    if (!limit) {
+        return res.json(products)
     } else {
-        if (limit >= productsInDb.lenght) {
-            return res.send("Ingresó un limite mayor a la cantidad de objetos en DB")
+        if (limit > products.length) {
+            // res.statusCode = 400;
+            return res.status(409).json({
+                error: "Ingresó un limite mayor a la cantidad de objetos en DB",
+            });
         } else {
-        for (let i=0; i<limit; i++) {
-            return res.json(productsInDb[i])
-        }}
+            return res.json(products.slice(0, limit));
+        }
     }
 });
 
+app.get('/products/:pid', async (req, res) => {
+    const products = await productManager.getProducts();
+    const idRequested = req.params.id;
+    const userSearch = products.find((p) => p.id == idRequested);
+    if(userSearch) {
+        return res.json(userSearch);
+    } else {
+        return res.status(409).json({
+            error: "objeto no encontrado con el id " + idRequested
+        })
+    }
+});
+
+app.listen(PORT, () => {
+    console.log(`Example app listening on port http://localhost:${PORT}`)
+});
