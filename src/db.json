@@ -178,41 +178,5 @@
     "thumbnail": "mauris ullamcorper purus sit amet nulla quisque arcu libero rutrum ac lobortis vel dapibus at",
     "code": "57955-6030",
     "stock": 40
-  },
-  {
-    "id": 21,
-    "title": "Alumno",
-    "desc": "CoderHouse",
-    "price": 450,
-    "thumbnail": "sin ruta",
-    "code": 6135763,
-    "stock": 50
-  },
-  {
-    "id": 22,
-    "title": "Alumno4",
-    "desc": "CoderHouse5",
-    "price": 450,
-    "thumbnail": "sin ruta",
-    "code": 61357631,
-    "stock": 50
-  },
-  {
-    "id": 23,
-    "title": "Dai",
-    "desc": "La más hermosa del mundo",
-    "price": 1e+43,
-    "thumbnail": "sin ruta",
-    "code": 613576143,
-    "stock": 50
-  },
-  {
-    "id": 24,
-    "title": "Dai",
-    "desc": "La más hermosa del mundo",
-    "price": 1e+43,
-    "thumbnail": "sin ruta",
-    "code": 61357614361,
-    "stock": 50
   }
 ]
