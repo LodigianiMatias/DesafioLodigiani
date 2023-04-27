@@ -46,36 +46,40 @@ export class ProductManager {
         if (findIndex) {
             return findIndex;
         } else {
-            return "Id de producto no encontrado"
+            return "Id de producto no encontrado con el id: "+id;
         }
     }
 
-    async updateProduct(id, title, desc, price, thumbnail, code, stock) {
-        let productsObject = {
-            id: id,
-            title: title,
-            desc: desc,
-            price: price,
-            thumbnail: thumbnail,
-            code: code,
-            stock: stock,
-        }
-        const searchProduct = this.products.findIndex((p) => p.id === id)
-        let verify = this.products.find((cod) => cod.code === code)
-        if (searchProduct === -1) {
+    async updateProduct(id, product) {
+        await this.loadData()
+        const searchProduct = this.products.findIndex((p) => p.id == id);
+
+        if(searchProduct === -1) {
             return ("id de Producto no encontrado");
+        };
+
+        if (!product.title ||
+            !product.desc ||
+            !product.price ||
+            !product.thumbnail ||
+            !product.code ||
+            !product.stock) {
+            return ("Debe completar todos los campos obligatoriamente")
         }
-        if (verify !== undefined) {
+
+        this.products[searchProduct].code = "";
+        let verifyCode = this.products.find((cod) => cod.code == product.code);
+        if(verifyCode !== undefined) {
             return ("El codigo del producto ya existe");
         }
-        this.products.splice(searchProduct, 1, productsObject)
+
+        this.products.splice(searchProduct, 1, {id: id , ...product});
         await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2));
-        return "Datos actualizados"
     }
 
     async deleteProduct(id) {
         await this.loadData();
-        const productIndex = this.products.findIndex(p => p.id === id);
+        const productIndex = this.products.findIndex(p => p.id == id);
         if (productIndex == -1) {
             return ("id de Producto no encontrado");
         }

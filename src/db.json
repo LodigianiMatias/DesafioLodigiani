@@ -18,15 +18,6 @@
     "stock": 86
   },
   {
-    "id": 3,
-    "title": "Toyota",
-    "desc": "odio condimentum id luctus nec molestie sed justo pellentesque viverra pede ac",
-    "price": "$0.87",
-    "thumbnail": "eget elit sodales scelerisque mauris sit amet eros suspendisse accumsan tortor quis turpis sed ante vivamus",
-    "code": "41250-299",
-    "stock": 11
-  },
-  {
     "id": 4,
     "title": "BMW",
     "desc": "in quam fringilla rhoncus mauris enim leo rhoncus sed vestibulum sit amet cursus id turpis integer aliquet massa",
@@ -163,20 +154,29 @@
   },
   {
     "id": 19,
-    "title": "Ford",
-    "desc": "magna ac consequat metus sapien ut nunc vestibulum ante ipsum primis in",
-    "price": "$6.23",
-    "thumbnail": "dui proin leo odio porttitor id consequat in consequat ut nulla sed",
-    "code": "64679-782",
-    "stock": 75
+    "title": "Matias",
+    "desc": "Hola Mundo",
+    "price": 14532,
+    "thumbnail": "sin ruta",
+    "code": 40730389,
+    "stock": 650
   },
   {
     "id": 20,
-    "title": "Bentley",
-    "desc": "elementum eu interdum eu tincidunt in leo maecenas pulvinar lobortis est phasellus sit amet erat nulla tempus vivamus in felis",
-    "price": "$7.78",
-    "thumbnail": "mauris ullamcorper purus sit amet nulla quisque arcu libero rutrum ac lobortis vel dapibus at",
-    "code": "57955-6030",
-    "stock": 40
+    "title": "Producto Nuevo",
+    "desc": "lorem",
+    "price": 10000,
+    "thumbnail": "sin ruta",
+    "code": 501235618,
+    "stock": 50
+  },
+  {
+    "id": 21,
+    "title": "Producto Nuevo",
+    "desc": "lorem",
+    "price": 10000,
+    "thumbnail": "sin ruta",
+    "code": 52105835,
+    "stock": 50
   }
 ]

@@ -29,7 +29,8 @@ app.get('/api/products/:pid', async (req, res) => {
         return res.status(200).json(userSearch);
     } else {
         return res.status(409).json({
-            error: "Objeto no encontrado con el id " + idRequested
+            error: userSearch
+
         });
     }
 });
@@ -37,13 +38,35 @@ app.get('/api/products/:pid', async (req, res) => {
 app.post("/api/products", async (req, res) => {
     const productToAdd = req.body;
     const products = await productManager.addProduct(productToAdd)
-    res.status(200).json({ message: "Producto agregado con éxito", products });
+    if (!products) {
+        res.status(200).json({ message: "Producto agregado con éxito"});
+    } else {
+        res.status(409).json({ error: products})
+    }
 });
 
 
-// app.put("/products/:id", (req, res) => {});
+app.put("/api/products/:pid", async (req, res) => {
+    const idProduct = parseInt(req.params.pid);
+    const newProduct = req.body;
+    const productModify = await productManager.updateProduct(idProduct, newProduct);
+    if(!productModify) {
+        res.status(200).json({ message: "Producto modificado con éxito"})
+    } else {
+        res.status(409).json({error: "Objeto no encontrado con el id " + idProduct});
+    }
+});
 
-// app.delete("/products/:id", (req, res) => {});
+app.delete("/api/products/:pid", async (req, res) => {
+    const idToDelete = parseInt(req.params.pid);
+    const productEliminated = await productManager.deleteProduct(idToDelete);
+    if (!productEliminated) {
+        res.status(200).json({ message: "Producto eliminado con éxito"});
+    } else {
+        res.status(409).json({ error: "Id no encontrado"})
+    }
+    
+});
 
 
 
