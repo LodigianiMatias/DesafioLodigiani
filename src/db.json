@@ -196,5 +196,23 @@
     "thumbnail": "sin ruta",
     "code": 61357631,
     "stock": 50
+  },
+  {
+    "id": 23,
+    "title": "Dai",
+    "desc": "La más hermosa del mundo",
+    "price": 1e+43,
+    "thumbnail": "sin ruta",
+    "code": 613576143,
+    "stock": 50
+  },
+  {
+    "id": 24,
+    "title": "Dai",
+    "desc": "La más hermosa del mundo",
+    "price": 1e+43,
+    "thumbnail": "sin ruta",
+    "code": 61357614361,
+    "stock": 50
   }
 ]

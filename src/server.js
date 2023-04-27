@@ -3,7 +3,7 @@ import productManager from './ProductManager.js';
 
 const app = express();
 app.use(express.json());
-app.use(express.urlencoded( {extended: true} ));
+app.use(express.urlencoded({ extended: true }));
 const PORT = 4000;
 
 app.get('/api/products', async (req, res) => {
@@ -25,7 +25,7 @@ app.get('/api/products', async (req, res) => {
 app.get('/api/products/:pid', async (req, res) => {
     const idRequested = parseInt(req.params.pid);
     const userSearch = await productManager.getProductsById(idRequested);
-    if(userSearch) {
+    if (userSearch) {
         return res.status(200).json(userSearch);
     } else {
         return res.status(409).json({
@@ -37,7 +37,7 @@ app.get('/api/products/:pid', async (req, res) => {
 app.post("/api/products", async (req, res) => {
     const productToAdd = req.body;
     const products = await productManager.addProduct(productToAdd)
-    res.status(200).json(products);
+    res.status(200).json({ message: "Producto agregado con éxito", products });
 });
 
 
