@@ -46,7 +46,7 @@ export class ProductManager {
         if (findIndex) {
             return findIndex;
         } else {
-            return "Id de producto no encontrado con el id: "+id;
+            return "Producto no encontrado con el id: "+id;
         }
     }
 
@@ -55,7 +55,7 @@ export class ProductManager {
         const searchProduct = this.products.findIndex((p) => p.id == id);
 
         if(searchProduct === -1) {
-            return ("id de Producto no encontrado");
+            return ("Producto no encontrado con el id: " + id);
         };
 
         if (!product.title ||
@@ -81,7 +81,7 @@ export class ProductManager {
         await this.loadData();
         const productIndex = this.products.findIndex(p => p.id == id);
         if (productIndex == -1) {
-            return ("id de Producto no encontrado");
+            return ("Producto no encontrado con el id: " + id);
         }
         this.products.splice(productIndex, 1);
         await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2));

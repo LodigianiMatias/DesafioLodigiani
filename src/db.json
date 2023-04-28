@@ -163,20 +163,11 @@
   },
   {
     "id": 20,
-    "title": "Producto Nuevo",
-    "desc": "lorem",
-    "price": 10000,
+    "title": "Antonio",
+    "desc": "Hola Mundo",
+    "price": 14532,
     "thumbnail": "sin ruta",
-    "code": 501235618,
-    "stock": 50
-  },
-  {
-    "id": 21,
-    "title": "Producto Nuevo",
-    "desc": "lorem",
-    "price": 10000,
-    "thumbnail": "sin ruta",
-    "code": 52105835,
-    "stock": 50
+    "code": 284932853,
+    "stock": 650
   }
 ]

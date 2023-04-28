@@ -28,10 +28,7 @@ app.get('/api/products/:pid', async (req, res) => {
     if (userSearch) {
         return res.status(200).json(userSearch);
     } else {
-        return res.status(409).json({
-            error: userSearch
-
-        });
+        return res.status(409).json({error: userSearch});
     }
 });
 
@@ -53,7 +50,7 @@ app.put("/api/products/:pid", async (req, res) => {
     if(!productModify) {
         res.status(200).json({ message: "Producto modificado con éxito"})
     } else {
-        res.status(409).json({error: "Objeto no encontrado con el id " + idProduct});
+        res.status(409).json({error: productModify});
     }
 });
 
@@ -63,9 +60,8 @@ app.delete("/api/products/:pid", async (req, res) => {
     if (!productEliminated) {
         res.status(200).json({ message: "Producto eliminado con éxito"});
     } else {
-        res.status(409).json({ error: "Id no encontrado"})
+        res.status(409).json({ error: productEliminated})
     }
-    
 });
 
 
