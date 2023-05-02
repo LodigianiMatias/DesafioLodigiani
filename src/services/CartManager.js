@@ -1,4 +1,5 @@
 import fs from 'fs'
+import productManager from './ProductManager.js'
 import { v4 as uuid } from 'uuid'
 
 class CartManager {
@@ -28,14 +29,19 @@ class CartManager {
   async getCartById (cid) {
     const carts = await this.getCarts()
     const cart = carts.find(cart => cart.id === cid)
-    if (!cart) throw new Error(`Carrito no encontrado con el id ${cid}`)
+    if (!cart) throw new Error(`Cart not found by id: ${cid}`)
     return cart
   }
 
   async addProductsToCart (cid, pid) {
     const carts = await this.getCarts()
+    try {
+      await productManager.getProductsById(parseInt(pid))
+    } catch (error) {
+      throw new Error('Product id not found')
+    }
     const cartIndex = carts.findIndex(cart => cart.id === cid)
-    if (cartIndex === -1) throw new Error(`Carrito no encontrado con el id ${cid}`)
+    if (cartIndex === -1) throw new Error(`Cart not found by id: ${cid}`)
 
     const productIndex = carts[cartIndex].products.findIndex(product => product.id === pid)
     if (productIndex === -1) {
@@ -52,7 +58,7 @@ class CartManager {
     const carts = await this.getCarts()
     const cartToDelete = carts.findIndex(cart => cart.id === cid)
     if (cartToDelete === -1) {
-      throw new Error(`No se encontró el carrito con el id ${cid}`)
+      throw new Error(`Cart not found by id: ${cid}`)
     }
     carts.splice(cartToDelete, 1)
     fs.promises.writeFile(this.path, JSON.stringify(carts, null, 2))

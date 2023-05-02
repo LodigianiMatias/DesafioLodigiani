@@ -7,169 +7,303 @@
 	},
 	"item": [
 		{
-			"name": "LOAD PRODUCTS FROM DB",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:4000/api/products",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "4000",
-					"path": [
-						"api",
-						"products"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "LOAD PRODUCTS WITH LIMIT",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:4000/api/products?limit=5",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "4000",
-					"path": [
-						"api",
-						"products"
-					],
-					"query": [
-						{
-							"key": "limit",
-							"value": "5"
+			"name": "Products",
+			"item": [
+				{
+					"name": "LOAD PRODUCTS FROM DB",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"products"
+							]
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "LOAD PRODUCT BY ID",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:4000/api/products/:pid",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "4000",
-					"path": [
-						"api",
-						"products",
-						":pid"
-					],
-					"variable": [
-						{
-							"key": "pid",
-							"value": "3"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "ADD PRODUCTS",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"title\": \"Producto Nuevo\",\r\n    \"desc\": \"lorem\",\r\n    \"price\": 10000,\r\n    \"thumbnail\": \"sin ruta\",\r\n    \"code\": 61357614361,\r\n    \"stock\": 50\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:4000/api/products",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "4000",
-					"path": [
-						"api",
-						"products"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "UPDATE PRODUCT",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"title\": \"Miguel\",\r\n    \"desc\": \"Hola Mundo\",\r\n    \"price\": 14532,\r\n    \"thumbnail\": \"sin ruta\",\r\n    \"code\": 40730389,\r\n    \"stock\": 650\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "LOAD PRODUCTS WITH LIMIT",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/products?limit=5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"products"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "5"
+								}
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:4000/api/products/:pid",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "4000",
-					"path": [
-						"api",
-						"products",
-						":pid"
-					],
-					"variable": [
-						{
-							"key": "pid",
-							"value": "3"
+				{
+					"name": "LOAD PRODUCT BY ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/products/:pid",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"products",
+								":pid"
+							],
+							"variable": [
+								{
+									"key": "pid",
+									"value": "16"
+								}
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "ADD PRODUCTS",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Leo\",\r\n    \"desc\": \"lorem\",\r\n    \"price\": 10000,\r\n    \"thumbnail\": \"sin ruta\",\r\n    \"code\": 374665,\r\n    \"stock\": 50\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE PRODUCT",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Mati\",\r\n    \"desc\": \"Hola Mundo\",\r\n    \"price\": 14532,\r\n    \"thumbnail\": \"sin ruta\",\r\n    \"code\": 123485,\r\n    \"stock\": 650\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/products/:pid",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"products",
+								":pid"
+							],
+							"variable": [
+								{
+									"key": "pid",
+									"value": "21"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE PRODUCT BY ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/products/:pid",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"products",
+								":pid"
+							],
+							"variable": [
+								{
+									"key": "pid",
+									"value": "21"
+								}
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "DELETE PRODUCT BY ID",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:4000/api/products/:pid",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "4000",
-					"path": [
-						"api",
-						"products",
-						":pid"
-					],
-					"variable": [
-						{
-							"key": "pid",
-							"value": "3"
+			"name": "Cart",
+			"item": [
+				{
+					"name": "ADD CART",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Producto Nuevo\",\r\n    \"desc\": \"lorem\",\r\n    \"price\": 10000,\r\n    \"thumbnail\": \"sin ruta\",\r\n    \"code\": 61357614361,\r\n    \"stock\": 50\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/cart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"cart"
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "LOAD CART BY ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/cart/:cid",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"cart",
+								":cid"
+							],
+							"variable": [
+								{
+									"key": "cid",
+									"value": "fe456bf5-d3f4-4847-9e92-80cf5db18246"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE PRODUCT IN CART",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Antonio\",\r\n    \"desc\": \"Hola Mundo\",\r\n    \"price\": 14532,\r\n    \"thumbnail\": \"sin ruta\",\r\n    \"code\": 284932853,\r\n    \"stock\": 650\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/cart/:cid/:pid",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"cart",
+								":cid",
+								":pid"
+							],
+							"variable": [
+								{
+									"key": "cid",
+									"value": "2c303c5f-a9e7-42bb-8a6a-3cc3a007b586"
+								},
+								{
+									"key": "pid",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE CART BY ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/cart/:cid",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"cart",
+								":cid"
+							],
+							"variable": [
+								{
+									"key": "cid",
+									"value": "2cf374a4-fffd-41f6-bdd7-6d2f28b38eb5"
+								}
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		}
 	]
 }

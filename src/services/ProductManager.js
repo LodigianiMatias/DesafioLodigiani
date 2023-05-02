@@ -20,7 +20,7 @@ export class ProductManager {
     await this.loadData()
     const verify = this.products.find((cod) => cod.code === product.code)
     if (verify !== undefined) {
-      return ('El código del producto ya existe')
+      return ('Product code already exists. Try with another code')
     }
     if (!product.title ||
             !product.desc ||
@@ -28,7 +28,7 @@ export class ProductManager {
             !product.thumbnail ||
             !product.code ||
             !product.stock) {
-      return ('Debe completar todos los campos obligatoriamente')
+      return ('You must to complete all the fields')
     }
     this.products.push({ id: ProductManager.#id + 1, ...product })
     ProductManager.#id++
@@ -37,7 +37,7 @@ export class ProductManager {
 
   async getProducts () {
     await this.loadData()
-    return this.products.length > 0 ? this.products : 'No hay productos cargados en la base de datos'
+    return this.products.length > 0 ? this.products : 'There are no products in DB'
   };
 
   async getProductsById (id) {
@@ -46,7 +46,7 @@ export class ProductManager {
     if (findIndex) {
       return findIndex
     } else {
-      return 'Producto no encontrado con el id: ' + id
+      throw new Error(`Product not found by id: ${id}`)
     }
   }
 
@@ -55,7 +55,7 @@ export class ProductManager {
     const searchProduct = this.products.findIndex((p) => p.id === id)
 
     if (searchProduct === -1) {
-      return ('Producto no encontrado con el id: ' + id)
+      return (`Product not found by id: ${id}`)
     };
 
     if (!product.title ||
@@ -64,13 +64,13 @@ export class ProductManager {
             !product.thumbnail ||
             !product.code ||
             !product.stock) {
-      return ('Debe completar todos los campos obligatoriamente')
+      return ('You must to complete all the fields')
     }
 
     this.products[searchProduct].code = ''
     const verifyCode = this.products.find((cod) => cod.code === product.code)
     if (verifyCode !== undefined) {
-      return ('El codigo del producto ya existe')
+      return ('Product code already exists')
     }
 
     this.products.splice(searchProduct, 1, { id, ...product })
@@ -81,7 +81,7 @@ export class ProductManager {
     await this.loadData()
     const productIndex = this.products.findIndex(p => p.id === id)
     if (productIndex === -1) {
-      return ('Producto no encontrado con el id: ' + id)
+      return (`Product not found by id: ${id}`)
     }
     this.products.splice(productIndex, 1)
     await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2))

@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
   } else {
     if (limit > products.length) {
       return res.status(409).json({
-        error: 'Ingresó un limite mayor a la cantidad de objetos en DB'
+        error: 'Invalid limit'
       })
     } else {
       return res.status(200).json(products.slice(0, limit))
@@ -21,11 +21,16 @@ router.get('/', async (req, res) => {
 
 router.get('/:pid', async (req, res) => {
   const idRequested = parseInt(req.params.pid)
-  const userSearch = await productManager.getProductsById(idRequested)
-  if (userSearch) {
-    return res.status(200).json(userSearch)
-  } else {
-    return res.status(409).json({ error: userSearch })
+  try {
+    const userSearch = await productManager.getProductsById(idRequested)
+    return res.status(200).json({
+      success: true,
+      userSearch
+    })
+  } catch (error) {
+    res.status(400).json({
+      error: 'Product id not found'
+    })
   }
 })
 
@@ -33,7 +38,7 @@ router.post('/', async (req, res) => {
   const productToAdd = req.body
   const products = await productManager.addProduct(productToAdd)
   if (!products) {
-    res.status(200).json({ message: 'Producto agregado con éxito' })
+    res.status(200).json({ message: 'Product succesfully added' })
   } else {
     res.status(409).json({ error: products })
   }
@@ -44,7 +49,7 @@ router.put('/:pid', async (req, res) => {
   const newProduct = req.body
   const productModify = await productManager.updateProduct(idProduct, newProduct)
   if (!productModify) {
-    res.status(200).json({ message: 'Producto modificado con éxito' })
+    res.status(200).json({ message: 'Producto succesfully modified' })
   } else {
     res.status(409).json({ error: productModify })
   }
@@ -54,7 +59,7 @@ router.delete('/:pid', async (req, res) => {
   const idToDelete = parseInt(req.params.pid)
   const productEliminated = await productManager.deleteProduct(idToDelete)
   if (!productEliminated) {
-    res.status(200).json({ message: 'Producto eliminado con éxito' })
+    res.status(200).json({ message: 'Producto succesfully deleted' })
   } else {
     res.status(409).json({ error: productEliminated })
   }
