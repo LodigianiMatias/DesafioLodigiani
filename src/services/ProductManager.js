@@ -30,7 +30,7 @@ export class ProductManager {
             !product.stock) {
       return ('You must to complete all the fields')
     }
-    this.products.push({ id: ProductManager.#id + 1, ...product })
+    this.products.push({ id: ProductManager.#id + 1, ...product, status: product.status ?? true })
     ProductManager.#id++
     await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2))
   }

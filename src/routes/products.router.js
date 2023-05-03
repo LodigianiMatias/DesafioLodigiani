@@ -38,7 +38,10 @@ router.post('/', async (req, res) => {
   const productToAdd = req.body
   const products = await productManager.addProduct(productToAdd)
   if (!products) {
-    res.status(200).json({ message: 'Product succesfully added' })
+    res.status(200).json({
+      status: true,
+      message: 'Product succesfully added'
+    })
   } else {
     res.status(409).json({ error: products })
   }
@@ -49,7 +52,10 @@ router.put('/:pid', async (req, res) => {
   const newProduct = req.body
   const productModify = await productManager.updateProduct(idProduct, newProduct)
   if (!productModify) {
-    res.status(200).json({ message: 'Producto succesfully modified' })
+    res.status(200).json({
+      status: true,
+      message: 'Producto succesfully modified'
+    })
   } else {
     res.status(409).json({ error: productModify })
   }
@@ -59,7 +65,10 @@ router.delete('/:pid', async (req, res) => {
   const idToDelete = parseInt(req.params.pid)
   const productEliminated = await productManager.deleteProduct(idToDelete)
   if (!productEliminated) {
-    res.status(200).json({ message: 'Producto succesfully deleted' })
+    res.status(200).json({
+      status: true,
+      message: 'Producto succesfully deleted'
+    })
   } else {
     res.status(409).json({ error: productEliminated })
   }

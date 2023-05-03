@@ -21,9 +21,7 @@ router.get('/:cid', async (req, res) => {
   const { cid } = req.params
   try {
     const cart = await cartManager.getCartById(cid)
-    res.status(200).json({
-      cart
-    })
+    res.status(200).json(cart.products)
   } catch (error) {
     res.status(400).json({
       error: 'Cart not found'
