@@ -14,6 +14,5 @@ const storage = multer.diskStorage({
 export const uploader = multer({ storage })
 
 // https://flaviocopes.com/fix-dirname-not-defined-es-module-scope/
-
 export const __filename = fileURLToPath(import.meta.url)
 export const __dirname = path.dirname(__filename)

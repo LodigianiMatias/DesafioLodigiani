@@ -1,0 +1,12 @@
+<h1 style="text-align: center;">Lista de Productos</h1>
+<div style="display: grid; position:relative; justify-content:center">
+  {{#each products as |product|}}
+  <div style="border: 1px solid #000;">
+    <ul>
+    <li>Nombre: {{product.title}}</li>
+    <li>Precio: {{product.price}}</li>
+    <li>Stock: {{product.stock}}</li>
+  </ul>
+  </div>
+  {{/each}}
+</div>
