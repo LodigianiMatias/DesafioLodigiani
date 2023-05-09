@@ -1,0 +1,289 @@
+{
+	"info": {
+		"_postman_id": "e8f4966c-d239-4322-ac0c-9db3acde8b33",
+		"name": "desafioLodigianiAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27127575"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "LOAD PRODUCTS FROM DB",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/products",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOAD PRODUCTS WITH LIMIT",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/products?limit=5",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"products"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOAD PRODUCT BY ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/products/:pid",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"products",
+								":pid"
+							],
+							"variable": [
+								{
+									"key": "pid",
+									"value": "16"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ADD PRODUCTS",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Juancito\",\r\n    \"desc\": \"lorem\",\r\n    \"price\": 10000,\r\n    \"thumbnail\": \"sin ruta\",\r\n    \"code\": 155151515,\r\n    \"stock\": 50,\r\n    \"status\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/api/products",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE PRODUCT",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Mati\",\r\n    \"desc\": \"Hola Mundo\",\r\n    \"price\": 14532,\r\n    \"thumbnail\": \"sin ruta\",\r\n    \"code\": 123485,\r\n    \"stock\": 650\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/api/products/:pid",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"products",
+								":pid"
+							],
+							"variable": [
+								{
+									"key": "pid",
+									"value": "21"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE PRODUCT BY ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/products/:pid",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"products",
+								":pid"
+							],
+							"variable": [
+								{
+									"key": "pid",
+									"value": "22"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cart",
+			"item": [
+				{
+					"name": "ADD CART",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Producto Nuevo\",\r\n    \"desc\": \"lorem\",\r\n    \"price\": 10000,\r\n    \"thumbnail\": \"sin ruta\",\r\n    \"code\": 61357614361,\r\n    \"stock\": 50\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/api/cart",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOAD CART BY ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/cart/:cid",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"cart",
+								":cid"
+							],
+							"variable": [
+								{
+									"key": "cid",
+									"value": "2c303c5f-a9e7-42bb-8a6a-3cc3a007b586"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE PRODUCT IN CART",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Antonio\",\r\n    \"desc\": \"Hola Mundo\",\r\n    \"price\": 14532,\r\n    \"thumbnail\": \"sin ruta\",\r\n    \"code\": 284932853,\r\n    \"stock\": 650\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/api/cart/:cid/:pid",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"cart",
+								":cid",
+								":pid"
+							],
+							"variable": [
+								{
+									"key": "cid",
+									"value": "00351933-8945-4454-964e-27d095de214d"
+								},
+								{
+									"key": "pid",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE CART BY ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/cart/:cid",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"cart",
+								":cid"
+							],
+							"variable": [
+								{
+									"key": "cid",
+									"value": "00351933-8945-4454-964e-27d095de2141245"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
