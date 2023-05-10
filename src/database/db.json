@@ -168,45 +168,5 @@
     "code": "60681-5005",
     "stock": 43,
     "status": true
-  },
-  {
-    "id": 19,
-    "title": "Matias",
-    "desc": "Hola Mundo",
-    "price": 14532,
-    "thumbnails": "sin ruta",
-    "code": 40730389,
-    "stock": 650,
-    "status": true
-  },
-  {
-    "id": 20,
-    "title": "Antonio",
-    "desc": "Hola Mundo",
-    "price": 14532,
-    "thumbnails": "sin ruta",
-    "code": 284932853,
-    "stock": 650,
-    "status": true
-  },
-  {
-    "id": 21,
-    "title": "Ilan",
-    "desc": "lorem",
-    "price": 10000,
-    "thumbnail": "sin ruta",
-    "code": 1551515,
-    "stock": 50,
-    "status": true
-  },
-  {
-    "id": 22,
-    "title": "Juancito",
-    "desc": "lorem",
-    "price": 10000,
-    "thumbnail": "sin ruta",
-    "code": 155151515,
-    "stock": 50,
-    "status": false
   }
 ]
