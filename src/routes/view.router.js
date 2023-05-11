@@ -3,7 +3,7 @@ import productManager from '../services/ProductManager.js'
 
 const router = Router()
 
-router.use('/', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const products = await productManager.getProducts()
     res.status(200).render('index', { name: 'Página de inicio', products })
@@ -12,6 +12,10 @@ router.use('/', async (req, res) => {
       error: 'Could not get the product list'
     })
   }
+})
+
+router.get('/socket', (req, res) => {
+  res.render('socketIndex', {})
 })
 
 export default router
