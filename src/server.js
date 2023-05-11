@@ -1,8 +1,8 @@
-import { Server } from 'socket.io'
 import { __dirname } from './utils.js'
 import apiRouter from './routes/api.router.js'
 import express from 'express'
 import handlebars from 'express-handlebars'
+import { initSockets } from './socket/socketServer.js'
 import path from 'path'
 import viewRouter from './routes/view.router.js'
 
@@ -17,8 +17,7 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'handlebars')
 
 // MULTER
-app.use(express.static('public'))
-// app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static('src/public'))
 
 app.use('/api', apiRouter)
 app.use('/', viewRouter)
@@ -28,13 +27,4 @@ const httpServer = app.listen(PORT, () => {
 })
 
 // SOCKET IO
-const socketServer = new Server(httpServer)
-
-socketServer.on('connection', (socket) => {
-  console.log('Nuevo cliente conectado')
-  socket.on('message', (data) => {
-    console.log(data)
-  })
-
-  socket.emit('evento_para_socket_individual', 'Este mensaje sólo lo debe recibir el socket')
-})
+initSockets(httpServer)

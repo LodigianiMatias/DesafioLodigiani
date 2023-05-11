@@ -14,8 +14,9 @@ router.get('/', async (req, res) => {
   }
 })
 
-router.get('/socket', (req, res) => {
-  res.render('socketIndex', {})
+router.get('/realtimeproducts', async (req, res) => {
+  const products = await productManager.getProducts()
+  res.status(200).render('realTimeProducts', { name: 'Pagina WebSocket', products })
 })
 
 export default router
