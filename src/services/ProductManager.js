@@ -1,7 +1,8 @@
 import fs from 'fs'
+import { v4 as uuid } from 'uuid'
 
 export class ProductManager {
-  static #id = 0
+  // static #id = 0
   constructor (path) {
     this.products = []
     this.path = path
@@ -9,10 +10,10 @@ export class ProductManager {
 
   async loadData () {
     if (!fs.existsSync(this.path)) {
-      fs.promises.writeFile(this.path, JSON.stringify(this.products))
+      await fs.promises.writeFile(this.path, JSON.stringify(this.products))
     } else {
       this.products = JSON.parse(await fs.promises.readFile(this.path, 'utf-8'))
-      ProductManager.#id = this.products[this.products.length - 1]?.id || 0
+      // ProductManager.#id = this.products[this.products.length - 1]?.id || 0
     }
   }
 
@@ -25,13 +26,14 @@ export class ProductManager {
     if (!product.title ||
             !product.desc ||
             !product.price ||
-            !product.thumbnail ||
             !product.code ||
             !product.stock) {
       return ('You must to complete all the fields')
     }
-    this.products.push({ id: ProductManager.#id + 1, ...product, status: product.status ?? true })
-    ProductManager.#id++
+    product.price = parseFloat(product.price)
+    product.stock = parseInt(product.stock)
+    product.code = parseInt(product.code)
+    this.products.push({ id: uuid(), ...product, status: product.status ?? true })
     await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2))
   }
 
@@ -61,7 +63,6 @@ export class ProductManager {
     if (!product.title ||
             !product.desc ||
             !product.price ||
-            !product.thumbnail ||
             !product.code ||
             !product.stock) {
       return ('You must to complete all the fields')

@@ -60,23 +60,13 @@
     "status": true
   },
   {
-    "id": "58e2a7ff-22b1-4024-894d-f9cd13429b88",
+    "id": 7,
     "title": "Matias",
     "desc": "El tutor casi semisenior",
     "price": 1,
-    "code": 15411231212,
-    "stock": 1,
+    "code": 1541123121,
+    "stock": "1",
     "thumbnails": "/thumbnails/501846.jpg",
-    "status": true
-  },
-  {
-    "id": "51ee10c1-8cc2-4c8f-ae96-1aab2eed8cd4",
-    "title": "Dai",
-    "desc": "La novia más hermosa",
-    "price": 999999999999,
-    "code": 15411231215,
-    "stock": 1,
-    "thumbnails": "/thumbnails/IMG_2978.JPEG",
     "status": true
   }
 ]

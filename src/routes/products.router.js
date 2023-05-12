@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import productManager from '../services/ProductManager.js'
+import { uploader } from '../utils.js'
 
 const router = Router()
 
@@ -34,8 +35,13 @@ router.get('/:pid', async (req, res) => {
   }
 })
 
-router.post('/', async (req, res) => {
+router.post('/', uploader.single('thumbnails'), async (req, res) => {
   const productToAdd = req.body
+  if (req.file) {
+    productToAdd.thumbnails = `/thumbnails/${req.file.filename}`
+  } else {
+    productToAdd.thumbnails = '/thumbnails/placeholder.png'
+  }
   const products = await productManager.addProduct(productToAdd)
   if (!products) {
     res.status(200).json({
