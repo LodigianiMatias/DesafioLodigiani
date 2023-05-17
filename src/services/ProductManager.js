@@ -19,22 +19,25 @@ export class ProductManager {
 
   async addProduct (product) {
     await this.loadData()
-    const verify = this.products.find((cod) => cod.code === product.code)
+    const verify = this.products.find((cod) => cod.code === parseInt(product.code))
     if (verify !== undefined) {
-      return ('Product code already exists. Try with another code')
+      throw new Error('Product code already exists. Try with another code')
     }
     if (!product.title ||
             !product.desc ||
             !product.price ||
             !product.code ||
             !product.stock) {
-      return ('You must to complete all the fields')
+      throw new Error('You must to complete all the fields')
     }
+    product.thumbnails = product.thumbnails ? product.thumbnails : '/thumbnails/placeholder.png'
     product.price = parseFloat(product.price)
     product.stock = parseInt(product.stock)
     product.code = parseInt(product.code)
-    this.products.push({ id: uuid(), ...product, status: product.status ?? true })
+    const newProduct = { id: uuid(), ...product, status: product.status ?? true }
+    this.products.push(newProduct)
     await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2))
+    return newProduct
   }
 
   async getProducts () {

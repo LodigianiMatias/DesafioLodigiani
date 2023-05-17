@@ -1,0 +1,26 @@
+<div style="position: relative; border: 3px solid rgb(92, 0, 0); width: 90%; left: 5%; border-radius: 10px">
+  <form id="formProducts" action="/api/products" method="POST">
+    <div class="mx-2 mb-4">
+      <label for="exampleTitle" class="form-label fw-bold">Title</label>
+      <input type="text" class="form-control" id="inputTitle" placeholder="Title of Product" aria-describedby="emailHelp">
+    </div>
+    <div class="mx-2 mb-4">
+      <label for="exampleDescription" class="form-label fw-bold">Description</label>
+      <input type="text" class="form-control" id="inputDescription" placeholder="A little description of your product">
+    </div>
+    <div class="mx-2 mb-4">
+      <label for="examplePrice" class="form-label fw-bold">Price</label>
+      <input type="number" class="form-control  " id="inputPrice" placeholder="Insert the price">
+    </div>
+    <div class="mx-2 mb-4">
+      <label for="exampleCode" class="form-label fw-bold">Code number</label>
+      <input type="number" class="form-control" id="inputCode" placeholder="Insert code number">
+    </div>
+    <div class="mx-2 mb-4">
+      <label for="exampleStock" class="form-label fw-bold">Stock Quantity</label>
+      <input type="number" class="form-control" id="inputStock" placeholder="Insert stock">
+    </div>
+    <button type="submit" class="btn btn-primary position-relative start-50 top-0 translate-middle-x mb-2" id="buttonForm">Submit</button>
+  </form>
+  <h5 id="errorAlert" style="text-align: center;"></h5>
+</div>

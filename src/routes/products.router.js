@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import productManager from '../services/ProductManager.js'
-import { uploader } from '../utils.js'
+
+// import { uploader } from '../utils.js'
 
 const router = Router()
 
@@ -21,7 +22,7 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/:pid', async (req, res) => {
-  const idRequested = parseInt(req.params.pid)
+  const idRequested = req.params.pid
   try {
     const userSearch = await productManager.getProductsById(idRequested)
     return res.status(200).json({
@@ -35,12 +36,38 @@ router.get('/:pid', async (req, res) => {
   }
 })
 
-router.post('/', uploader.single('thumbnails'), async (req, res) => {
+router.post('/', async (req, res) => {
+  try {
+    const productToAdd = req.body
+    console.log(productToAdd)
+    /* if (req.file) {
+      productToAdd.thumbnails = `/thumbnails/${req.file.filename}`
+    } */
+    const product = await productManager.addProduct(productToAdd)
+    res.status(200).json({
+      status: true,
+      payload: product
+    })
+  } catch (err) {
+    if (err.message === 'Product code already exists. Try with another code') {
+      return res.status(409).json({
+        status: false,
+        error: 'Product code already exists. Try with another code'
+      })
+    }
+    if (err.message === 'You must to complete all the fields') {
+      return res.status(400).json({
+        status: false,
+        error: 'You must to complete all the fields'
+      })
+    }
+    return res.status(500).json({
+      error: 'Unexpected error'
+    })
+  }
   const productToAdd = req.body
   if (req.file) {
     productToAdd.thumbnails = `/thumbnails/${req.file.filename}`
-  } else {
-    productToAdd.thumbnails = '/thumbnails/placeholder.png'
   }
   const products = await productManager.addProduct(productToAdd)
   if (!products) {
@@ -54,7 +81,7 @@ router.post('/', uploader.single('thumbnails'), async (req, res) => {
 })
 
 router.put('/:pid', async (req, res) => {
-  const idProduct = parseInt(req.params.pid)
+  const idProduct = req.params.pid
   const newProduct = req.body
   const productModify = await productManager.updateProduct(idProduct, newProduct)
   if (!productModify) {
@@ -68,7 +95,7 @@ router.put('/:pid', async (req, res) => {
 })
 
 router.delete('/:pid', async (req, res) => {
-  const idToDelete = parseInt(req.params.pid)
+  const idToDelete = req.params.pid
   const productEliminated = await productManager.deleteProduct(idToDelete)
   if (!productEliminated) {
     res.status(200).json({
