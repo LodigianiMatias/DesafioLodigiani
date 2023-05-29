@@ -28,6 +28,7 @@
   
   socket.on('newProduct', product => {
     let li = document.createElement('li')
+    li.setAttribute ('id', product.id)
     li.innerHTML = 
     `<div  class="card my-2 mx-2" style="width: 18rem; flex-grow: 1;">
       <img src="${product.thumbnails}" class="card-img-top" alt="Imagen ilustrativa" id="imageRealTime">
@@ -84,10 +85,9 @@
     className: "toastify",
     newWindow: true,
     close: false,
-    gravity: "bottom", // `top` or `bottom`
-    position: "right", // `left`, `center` or `right`
-    stopOnFocus: true, // Prevents dismissing of toast on hover
-    onClick: function(){} // Callback after click
+    gravity: "bottom",
+    position: "right",
+    stopOnFocus: true,
 }).showToast();
   }
 
@@ -101,6 +101,7 @@
     divContainer.innerHTML = ""
     productsRefreshed.forEach( item => {
       const li = document.createElement("li")
+      li.setAttribute ('id', item.id)
       li.innerHTML = `<div  class="card my-2 mx-2" style="width: 18rem; flex-grow: 1;">
         <img src="${item.thumbnails}" class="card-img-top" alt="Imagen ilustrativa" id="imageRealTime">
         <div class="card-body">

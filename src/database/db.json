@@ -108,5 +108,15 @@
     "stock": 123452345,
     "thumbnails": "/thumbnails/501846.jpg",
     "status": true
+  },
+  {
+    "id": "83ab4474-6645-4fb8-90f3-8c21fec6aa62",
+    "title": "Producto 10",
+    "desc": "Description 10",
+    "price": 1500,
+    "code": 31225342345,
+    "stock": 5,
+    "thumbnails": "/thumbnails/placeholder.png",
+    "status": true
   }
 ]

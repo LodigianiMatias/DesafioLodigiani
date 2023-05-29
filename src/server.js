@@ -1,10 +1,14 @@
-import { __dirname } from './utils.js'
+import { __dirname, connectMongo } from './utils.js'
+
 import apiRouter from './routes/api.router.js'
 import express from 'express'
 import handlebars from 'express-handlebars'
 import { initSockets } from './socket/socketServer.js'
 import path from 'path'
 import viewRouter from './routes/view.router.js'
+
+connectMongo()
+// mongodb+srv://lodigianimatias97:UqL8e4QrIGRN7r6S@ecommercelodigiani.ugbdtrs.mongodb.net/?retryWrites=true&w=majority
 
 const PORT = 8080
 const app = express()
