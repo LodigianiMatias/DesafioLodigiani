@@ -7,6 +7,7 @@ const router = Router()
 router.get('/', async (req, res) => {
   try {
     const products = await productManager.getProducts()
+    console.log(products)
     res.status(200).render('index', { name: 'Página de inicio', products })
   } catch (err) {
     res.status(400).json({

@@ -6,31 +6,38 @@ import productManager from '../services/ProductManager.js'
 const router = Router()
 
 router.get('/', async (req, res) => {
-  const products = await productManager.getProducts()
-  const limit = parseInt(req.query.limit)
-  if (!limit) {
-    return res.status(200).json(products)
-  } else {
-    if (limit > products.length) {
-      return res.status(409).json({
-        error: 'Invalid limit'
+  try {
+    const products = await productManager.getProducts(parseInt(req.query.limit))
+    res.status(200).json({
+      status: true,
+      message: 'Database loaded',
+      payload: products
+    })
+  } catch (err) {
+    if (err.message === 'Invalid limit') {
+      return res.status(400).json({
+        status: false,
+        message: 'Invalid limit'
       })
-    } else {
-      return res.status(200).json(products.slice(0, limit))
     }
+    return res.status(500).json({
+      status: false,
+      message: 'Unexpected error'
+    })
   }
 })
 
 router.get('/:pid', async (req, res) => {
   const idRequested = req.params.pid
   try {
-    const userSearch = await productManager.getProductsById(idRequested)
+    const userSearch = await productManager.getProductById(idRequested)
     return res.status(200).json({
-      success: true,
-      userSearch
+      status: true,
+      payload: userSearch
     })
   } catch (error) {
     res.status(400).json({
+      status: false,
       error: 'Product id not found'
     })
   }
@@ -39,13 +46,13 @@ router.get('/:pid', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const productToAdd = req.body
-    console.log(productToAdd)
-    /* if (req.file) {
-      productToAdd.thumbnails = `/thumbnails/${req.file.filename}`
-    } */
+    if (req.file) {
+      req.body.thumbnails = `/thumbnails/${req.file.filename}`
+    }
     const product = await productManager.addProduct(productToAdd)
     res.status(200).json({
       status: true,
+      message: 'Product succesfully added',
       payload: product
     })
   } catch (err) {
@@ -61,49 +68,69 @@ router.post('/', async (req, res) => {
         error: 'You must to complete all the fields'
       })
     }
+    if (err.code === 11000) {
+      return res.status(400).json({
+        status: false,
+        error: 'Product code already exists. Try with another one'
+      })
+    }
     return res.status(500).json({
+      status: false,
       error: 'Unexpected error'
     })
-  }
-  const productToAdd = req.body
-  if (req.file) {
-    productToAdd.thumbnails = `/thumbnails/${req.file.filename}`
-  }
-  const products = await productManager.addProduct(productToAdd)
-  if (!products) {
-    res.status(200).json({
-      status: true,
-      message: 'Product succesfully added'
-    })
-  } else {
-    res.status(409).json({ error: products })
   }
 })
 
 router.put('/:pid', async (req, res) => {
   const idProduct = req.params.pid
   const newProduct = req.body
-  const productModify = await productManager.updateProduct(idProduct, newProduct)
-  if (!productModify) {
+  try {
+    const productModify = await productManager.updateProduct(idProduct, newProduct)
     res.status(200).json({
       status: true,
-      message: 'Producto succesfully modified'
+      message: 'Prodcut succesfully modified',
+      payload: productModify
     })
-  } else {
-    res.status(409).json({ error: productModify })
+  } catch (err) {
+    if (err.message === `Product not found by id: ${idProduct}`) {
+      return res.status(400).json({
+        status: false,
+        message: `Product not found by id ${idProduct}`
+      })
+    }
+    if (err.message === 'You must to complete all the fields') {
+      return res.status(400).json({
+        status: false,
+        message: 'You must to complete all the fields'
+      })
+    }
+    res.status(500).json({
+      status: false,
+      message: 'Unexpected error',
+      error: err
+    })
   }
 })
 
 router.delete('/:pid', async (req, res) => {
-  const idToDelete = req.params.pid
-  const productEliminated = await productManager.deleteProduct(idToDelete)
-  if (!productEliminated) {
+  const { pid } = req.params
+  try {
+    await productManager.deleteProduct(pid)
     res.status(200).json({
       status: true,
-      message: 'Producto succesfully deleted'
+      message: 'Product succesfully deleted'
     })
-  } else {
-    res.status(409).json({ error: productEliminated })
+  } catch (err) {
+    if (err.message === `Product not found by id: ${pid}`) {
+      return res.status(409).json({
+        status: false,
+        error: `Product not found by id: ${pid}`
+      })
+    }
+    res.status(500).json({
+      status: false,
+      error: 'Unexpected error'
+    })
   }
 })
 

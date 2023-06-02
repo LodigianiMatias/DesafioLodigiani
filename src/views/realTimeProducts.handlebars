@@ -5,7 +5,7 @@
 
 <ul id="ulContainer" style="display: flex; justify-content: space-between; flex-wrap: wrap; width: 80%; position: relative; left: 10%;" >
   {{#each products as |product|}}
-  <li id={{product.id}}>
+  <li id={{product._id}}>
     <div  class="card my-2 mx-2" style="width: 18rem; flex-grow: 1;">
     <img src="{{product.thumbnails}}" class="card-img-top" alt="Imagen ilustrativa" id="imageRealTime">
     <div class="card-body">
@@ -14,7 +14,7 @@
         <p class="card-text text-center pb-2" id="priceRealTime">Price: ${{product.price}}</p>
         <div class="mx-2 mb-2 d-flex justify-content-around">
         <a href="#" class="btn btn-secondary">Buy</a>
-        <a href="#" class="btn btn-danger" onclick='eliminateProduct("{{product.id}}")'>Delete</a>
+        <a href="#" class="btn btn-danger" onclick='eliminateProduct("{{product._id}}")'>Delete</a>
       </div>
       </div>
     </div>
@@ -28,7 +28,7 @@
   
   socket.on('newProduct', product => {
     let li = document.createElement('li')
-    li.setAttribute ('id', product.id)
+    li.setAttribute ('id', product._id)
     li.innerHTML = 
     `<div  class="card my-2 mx-2" style="width: 18rem; flex-grow: 1;">
       <img src="${product.thumbnails}" class="card-img-top" alt="Imagen ilustrativa" id="imageRealTime">
@@ -37,7 +37,7 @@
         <p class="card-text text-center" id="descRealTime">${product.desc}</p>
         <p class="card-text text-center pb-2" id="priceRealTime">Price: $${product.price}</p>
         <a href="#" class="btn btn-secondary">Buy</a>
-        <a href="#" class="btn btn-danger" onclick='eliminateProduct("${product.id}")'>Delete</a>
+        <a href="#" class="btn btn-danger" onclick='eliminateProduct("${product._id}")'>Delete</a>
       </div>
     </div>`
     divContainer.appendChild(li)
@@ -101,7 +101,7 @@
     divContainer.innerHTML = ""
     productsRefreshed.forEach( item => {
       const li = document.createElement("li")
-      li.setAttribute ('id', item.id)
+      li.setAttribute ('id', item._id)
       li.innerHTML = `<div  class="card my-2 mx-2" style="width: 18rem; flex-grow: 1;">
         <img src="${item.thumbnails}" class="card-img-top" alt="Imagen ilustrativa" id="imageRealTime">
         <div class="card-body">
@@ -110,12 +110,11 @@
         <p class="card-text text-center pb-2" id="priceRealTime">Price: $${item.price}</p>
         <div class="mx-2 mb-2 d-flex justify-content-around">
         <a href="#" class="btn btn-secondary">Buy</a>
-        <a href="#" class="btn btn-danger" onclick=eliminateProduct("${item.id}")>Delete</a>
+        <a href="#" class="btn btn-danger" onclick=eliminateProduct("${item._id}")>Delete</a>
       </div>
       </div>
     </div>`
     divContainer.appendChild(li)
     })
   })
-
 </script>

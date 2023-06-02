@@ -5,7 +5,7 @@
 
 <ul id="ulContainer" style="display: flex; justify-content: space-between; flex-wrap: wrap; width: 80%; position: relative; left: 10%;" >
   {{#each products as |product|}}
-  <li id="{{product.id}}">
+  <li id={{product._id}}>
     <div  class="card my-2 mx-2" style="width: 18rem; flex-grow: 1;">
       <img src="{{product.thumbnails}}" class="card-img-top" alt="Imagen ilustrativa" id="imageRealTime">
       <div class="card-body">
@@ -14,7 +14,7 @@
         <p class="card-text text-center pb-2" id="priceRealTime">Price: ${{product.price}}</p>
         <div class="mx-2 mb-2 d-flex justify-content-around">
           <a href="#" class="btn btn-secondary">Buy</a>
-          <a href="#" class="btn btn-danger" onclick='eliminateProduct("{{product.id}}")'>Delete</a>
+          <a href="#" class="btn btn-danger" onclick='eliminateProduct("{{product._id}}")'>Delete</a>
         </div>
       </div>
     </div>
@@ -58,7 +58,7 @@
       const data = await response.json()
 
       let li = document.createElement('li')
-      li.setAttribute ('id', data.payload.id)
+      li.setAttribute ('id', data.payload._id)
       li.innerHTML = `<div  class="card my-2 mx-2" style="width: 18rem; flex-grow: 1;">
       <img src="${data.payload.thumbnails}" class="card-img-top" alt="Imagen ilustrativa" id="imageRealTime">
       <div class="card-body">
@@ -67,7 +67,7 @@
         <p class="card-text text-center pb-2" id="priceRealTime">Price: $${data.payload.price}</p>
         <div class="mx-2 mb-2 d-flex justify-content-around">
           <a href="#" class="btn btn-secondary">Buy</a>
-          <a href="#" class="btn btn-danger" onclick='eliminateProduct("${data.payload.id}")'>Delete</a>
+          <a href="#" class="btn btn-danger" onclick='eliminateProduct("${data.payload._id}")'>Delete</a>
         </div>
         </div>
         </div>`
@@ -82,7 +82,7 @@
 
   async function eliminateProduct(id) {
     try {
-      const response = await fetch('/api/products/' + id, {
+      const response = await fetch('/api/products/'+id, {
       method: "DELETE"
     })
     const li = document.getElementById(id)

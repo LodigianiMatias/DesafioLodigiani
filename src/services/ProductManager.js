@@ -1,28 +1,11 @@
-import fs from 'fs'
-import { v4 as uuid } from 'uuid'
+import { ProductModel } from '../DAO/models/products.model.js'
 
 export class ProductManager {
-  // static #id = 0
-  constructor (path) {
-    this.products = []
-    this.path = path
-  }
-
-  async loadData () {
-    if (!fs.existsSync(this.path)) {
-      await fs.promises.writeFile(this.path, JSON.stringify(this.products))
-    } else {
-      this.products = JSON.parse(await fs.promises.readFile(this.path, 'utf-8'))
-      // ProductManager.#id = this.products[this.products.length - 1]?.id || 0
-    }
-  }
+  async getProducts (lt) {
+    return await ProductModel.find({}).limit(lt).lean()
+  };
 
   async addProduct (product) {
-    await this.loadData()
-    const verify = this.products.find((cod) => cod.code === parseInt(product.code))
-    if (verify !== undefined) {
-      throw new Error('Product code already exists. Try with another code')
-    }
     if (!product.title ||
             !product.desc ||
             !product.price ||
@@ -34,20 +17,14 @@ export class ProductManager {
     product.price = parseFloat(product.price)
     product.stock = parseInt(product.stock)
     product.code = parseInt(product.code)
-    const newProduct = { id: uuid(), ...product, status: product.status ?? true }
-    this.products.push(newProduct)
-    await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2))
+    product.status = product.status ?? true
+
+    const newProduct = await ProductModel.create(product)
     return newProduct
   }
 
-  async getProducts () {
-    await this.loadData()
-    return this.products.length > 0 ? this.products : 'There are no products in DB'
-  };
-
-  async getProductsById (id) {
-    await this.loadData()
-    const findIndex = this.products.find((p) => p.id === id)
+  async getProductById (id) {
+    const findIndex = await ProductModel.findOne({ _id: id })
     if (findIndex) {
       return findIndex
     } else {
@@ -56,11 +33,10 @@ export class ProductManager {
   }
 
   async updateProduct (id, product) {
-    await this.loadData()
-    const searchProduct = this.products.findIndex((p) => p.id === id)
-
-    if (searchProduct === -1) {
-      return (`Product not found by id: ${id}`)
+    const searchProduct = await ProductModel.find({ _id: id })
+    console.log(searchProduct)
+    if (searchProduct === undefined) {
+      throw new Error(`Product not found by id: ${id}`)
     };
 
     if (!product.title ||
@@ -68,28 +44,19 @@ export class ProductManager {
             !product.price ||
             !product.code ||
             !product.stock) {
-      return ('You must to complete all the fields')
+      throw new Error('You must to complete all the fields')
     }
 
-    this.products[searchProduct].code = ''
-    const verifyCode = this.products.find((cod) => cod.code === product.code)
-    if (verifyCode !== undefined) {
-      return ('Product code already exists')
-    }
+    product.thumbnails = product.thumbnails ? product.thumbnails : '/thumbnails/placeholder.png'
 
-    this.products.splice(searchProduct, 1, { id, ...product })
-    await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2))
+    await ProductModel.updateOne({ _id: id }, product)
+    return ProductModel.find({ _id: id })
   }
 
   async deleteProduct (id) {
-    await this.loadData()
-    const productIndex = this.products.findIndex(p => p.id === id)
-    if (productIndex === -1) {
-      return (`Product not found by id: ${id}`)
-    }
-    this.products.splice(productIndex, 1)
-    await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2))
+    console.log(id)
+    return await ProductModel.deleteOne({ _id: id })
   }
 }
 
-export default new ProductManager('./src/database/db.json')
+export default new ProductManager()

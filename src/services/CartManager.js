@@ -1,6 +1,5 @@
-import fs from 'fs'
-import productManager from './ProductManager.js'
-import { v4 as uuid } from 'uuid'
+import { CartModel } from '../DAO/models/carts.model.js'
+import { ProductModel } from '../DAO/models/products.model.js'
 
 class CartManager {
   constructor (path) {
@@ -8,60 +7,36 @@ class CartManager {
   }
 
   async getCarts () {
-    try {
-      return JSON.parse(await fs.promises.readFile(this.path, 'utf-8'))
-    } catch (error) {
-      return []
-    }
+    return await CartModel.find({})
   }
 
   async createCart () {
-    const carts = await this.getCarts()
-    const newCart = {
-      id: uuid(),
-      products: []
-    }
-    carts.push(newCart)
-    await fs.promises.writeFile(this.path, JSON.stringify(carts, null, 2))
-    return newCart.id
+    return await CartModel.create({})
   }
 
   async getCartById (cid) {
-    const carts = await this.getCarts()
-    const cart = carts.find(cart => cart.id === cid)
-    if (!cart) throw new Error(`Cart not found by id: ${cid}`)
-    return cart
+    return await CartModel.findOne({ _id: cid }).populate('products.product', { title: 1, thumbnails: 1, desc: 1 }).orFail(new Error(`Cart not found with id: ${cid}`))
   }
 
   async addProductsToCart (cid, pid) {
-    const carts = await this.getCarts()
-    try {
-      await productManager.getProductsById(parseInt(pid))
-    } catch (error) {
-      throw new Error('Product id not found')
-    }
-    const cartIndex = carts.findIndex(cart => cart.id === cid)
-    if (cartIndex === -1) throw new Error(`Cart not found by id: ${cid}`)
+    const product = await ProductModel.findOne({ _id: pid }).orFail(new Error(`No se encontro el id del producto ${pid}`))
+    const cart = await CartModel.findOne({ _id: cid }).orFail(new Error(`No se encontro el carrito con id ${cid}`))
 
-    const productIndex = carts[cartIndex].products.findIndex(product => product.id === pid)
+    const productIndex = cart.products.findIndex(item => item.product._id.toString() === pid)
+
     if (productIndex === -1) {
-      carts[cartIndex].products.push({ id: pid, quantity: 1 })
-    } else {
-      carts[cartIndex].products[productIndex].quantity += 1
+      if (product.stock === 0) throw new Error('No hay stock del producto solicitado')
+      cart.products.push({ product: product._id })
+      return await cart.save()
     }
 
-    await fs.promises.writeFile(this.path, JSON.stringify(carts, null, 2))
-    return carts[cartIndex]
+    if (product.stock < cart.products[productIndex].quantity + 1) throw new Error('No hay stock del producto solicitado')
+    cart.products[productIndex].quantity += 1
+    return await cart.save()
   }
 
   async deleteCart (cid) {
-    const carts = await this.getCarts()
-    const cartToDelete = carts.findIndex(cart => cart.id === cid)
-    if (cartToDelete === -1) {
-      throw new Error(`Cart not found by id: ${cid}`)
-    }
-    carts.splice(cartToDelete, 1)
-    fs.promises.writeFile(this.path, JSON.stringify(carts, null, 2))
+    return await CartModel.deleteOne({ _id: cid }).orFail(new Error(`Cart not found with id: ${cid}`))
   }
 }
 

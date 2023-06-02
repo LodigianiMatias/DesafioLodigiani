@@ -23,7 +23,7 @@ export const __dirname = path.dirname(__filename)
 export async function connectMongo () {
   try {
     await mongoose.connect(
-      'mongodb+srv://lodigianimatias97:UqL8e4QrIGRN7r6S@ecommercelodigiani.ugbdtrs.mongodb.net/?retryWrites=true&w=majority'
+      'mongodb+srv://lodigianimatias97:UqL8e4QrIGRN7r6S@ecommercelodigiani.ugbdtrs.mongodb.net/ecommerceLodigiani?retryWrites=true&w=majority'
     )
     console.log('Plug to Mongo')
   } catch (e) {
