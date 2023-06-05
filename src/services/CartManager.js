@@ -2,10 +2,6 @@ import { CartModel } from '../DAO/models/carts.model.js'
 import { ProductModel } from '../DAO/models/products.model.js'
 
 class CartManager {
-  constructor (path) {
-    this.path = path
-  }
-
   async getCarts () {
     return await CartModel.find({})
   }
@@ -19,25 +15,33 @@ class CartManager {
   }
 
   async addProductsToCart (cid, pid) {
-    const product = await ProductModel.findOne({ _id: pid }).orFail(new Error(`No se encontro el id del producto ${pid}`))
-    const cart = await CartModel.findOne({ _id: cid }).orFail(new Error(`No se encontro el carrito con id ${cid}`))
-
+    const product = await ProductModel.findOne({ _id: pid }).orFail(new Error(`Product not found with id: ${pid}`))
+    const cart = await CartModel.findOne({ _id: cid }).orFail(new Error(`Cart not found with id: ${cid}`))
     const productIndex = cart.products.findIndex(item => item.product._id.toString() === pid)
-
     if (productIndex === -1) {
-      if (product.stock === 0) throw new Error('No hay stock del producto solicitado')
+      if (product.stock === 0) throw new Error('Not enough stock')
       cart.products.push({ product: product._id })
       return await cart.save()
     }
 
-    if (product.stock < cart.products[productIndex].quantity + 1) throw new Error('No hay stock del producto solicitado')
+    if (product.stock < cart.products[productIndex].quantity + 1) throw new Error('Not enough stock')
     cart.products[productIndex].quantity += 1
     return await cart.save()
   }
 
+  async removeProductsInCart (cid, pid) {
+    const cart = await CartModel.findOne({ _id: cid }).orFail(new Error(`Cart not found with id: ${cid}`))
+    const productIndex = cart.products.findIndex(item => item.product._id.toString() === pid)
+    if (productIndex === -1) throw new Error(`Product not found with id: ${pid}`)
+    cart.products.splice(productIndex, 1)
+    return await cart.save()
+  }
+
   async deleteCart (cid) {
-    return await CartModel.deleteOne({ _id: cid }).orFail(new Error(`Cart not found with id: ${cid}`))
+    const cart = await CartModel.findOne({ _id: cid }).orFail(new Error(`Cart not found with id: ${cid}`))
+    cart.products = []
+    return await cart.save()
   }
 }
 
-export default new CartManager('./src/database/cart.json')
+export default new CartManager()
