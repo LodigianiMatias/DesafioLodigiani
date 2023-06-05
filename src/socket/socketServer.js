@@ -1,3 +1,4 @@
+import { MsgModel } from '../DAO/models/chat.model.js'
 import { Server } from 'socket.io'
 import productManager from '../services/ProductManager.js'
 
@@ -24,6 +25,16 @@ export const initSockets = (server) => {
         ioServer.emit('refreshPage', productsRefresh)
       } catch (err) {
         socket.emit('errorMessage', err.message)
+      }
+    })
+
+    socket.on('msg_front_to_back', async (msg) => {
+      try {
+        await MsgModel.create(msg)
+        const msgs = await MsgModel.find({})
+        ioServer.emit('msg_back_to_front', msgs)
+      } catch (err) {
+
       }
     })
   })

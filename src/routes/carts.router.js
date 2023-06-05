@@ -76,7 +76,7 @@ router.put('/:cid/products/:pid', async (req, res) => {
   }
 })
 
-router.delete(':cid/products/:pid', async (req, res) => {
+router.delete('/:cid/products/:pid', async (req, res) => {
   const { cid, pid } = req.params
   try {
     await cartManager.removeProductsInCart(cid, pid)

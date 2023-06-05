@@ -1,0 +1,54 @@
+<div style="position: relative; top: 20px; margin-left: 5%; width: 90%;" id="div-msgs" style="border: 1px solid black;">Loading... msgs</div>
+<input style="position: absolute; bottom: 20px; height: 100px; width: 90%; left: 5%; border: 2px solid rgb(0, 105, 146)" id="chat-box" name="chatbox" type="text" value="" placeholder="Type Here..."/>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  const socket = io()
+  let correoDelUsuario = ''
+  async function pedirEmail () {
+    const { value: nombre } = await Swal.fire({
+      title: 'Enter your mail',
+      input: 'text',
+      inputLabel: 'Your mail',
+      inputValue: '',
+      showCancelButton: false,
+      inputValidator: (value) => {
+        if (!value) {
+          return 'You need to write your mail!'
+        }
+      }
+    })
+
+    correoDelUsuario = nombre
+  }
+
+  pedirEmail()
+
+  // FRONT EMITE
+
+  const chatBox = document.getElementById('chat-box')
+
+  chatBox.addEventListener('keyup', ({ key }) => {
+    if (key === 'Enter') {
+      socket.emit('msg_front_to_back', {
+        user: correoDelUsuario,
+        message: chatBox.value
+      })
+      chatBox.value = ''
+    }
+  })
+
+  // FRONT RECIBE
+  socket.on('msg_back_to_front', (msgs) => {
+    console.log(msgs)
+    let msgsFormateados = ''
+    msgs.forEach((msg) => {
+      msgsFormateados += "<div style='border: 1px solid red;'>"
+      msgsFormateados += '<p>' + msg.user + '</p>'
+      msgsFormateados += '<p>' + msg.message + '</p>'
+      msgsFormateados += '</div>'
+    })
+    const divMsgs = document.getElementById('div-msgs')
+    divMsgs.innerHTML = msgsFormateados
+  })
+</script>

@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import productManager from '../services/ProductManager.js'
+import realTimeChat from './chat.router.js'
 import realTimeRouter from './realtime.router.js'
 
 const router = Router()
@@ -16,5 +17,6 @@ router.get('/', async (req, res) => {
 })
 
 router.use('/', realTimeRouter)
+router.use('/', realTimeChat)
 
 export default router
