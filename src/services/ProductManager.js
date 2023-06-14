@@ -1,8 +1,35 @@
 import { ProductModel } from '../DAO/models/products.model.js'
 
 export class ProductManager {
-  async getProducts (lt) {
-    return await ProductModel.find({}).limit(lt).lean()
+  async getProducts (queryParams) {
+    const { limit = queryParams.limit || 10, page = queryParams.page || 1, sort, query } = queryParams
+    const filter = {}
+
+    if (query) {
+      filter.$or = [
+        { title: query }
+      ]
+    }
+
+    const options = {
+      page: parseInt(page),
+      limit: parseInt(limit),
+      sort: sort === 'desc' ? '-price' : 'price'
+    }
+    const result = await ProductModel.paginate(filter, options).orFail('Pagination error')
+
+    const response = {
+      payload: result.docs,
+      totalPages: result.totalPages,
+      prevPage: result.hasPrevPage ? result.prevPage : null,
+      nextPage: result.hasNextPage ? result.nextPage : null,
+      page: result.page,
+      hasPrevPage: result.hasPrevPage,
+      hasNextPage: result.hasNextPage,
+      prevLink: result.hasPrevPage ? `/api/products?limit=${limit}&page=${result.prevPage}` : null,
+      nextLink: result.hasNextPage ? `/api/products?limit=${limit}&page=${result.nextPage}` : null
+    }
+    return response
   };
 
   async addProduct (product) {
@@ -23,8 +50,8 @@ export class ProductManager {
     return newProduct
   }
 
-  async getProductById (id) {
-    return await ProductModel.findOne({ _id: id }).orFail(new Error(`Product not found by id: ${id}`)).lean()
+  async getProductById (pid) {
+    return await ProductModel.findOne({ _id: pid }).orFail(new Error(`Product not found by id: ${pid}`)).lean()
   }
 
   async updateProduct (id, product) {

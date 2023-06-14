@@ -42,13 +42,13 @@ router.get('/:cid', async (req, res) => {
   }
 })
 
-router.put('/:cid/products/:pid', async (req, res) => {
+router.post('/:cid/products/:pid', async (req, res) => {
   const { cid, pid } = req.params
   try {
     const productToAdd = await cartManager.addProductsToCart(cid, pid)
     res.status(200).json({
       success: true,
-      productToAdd
+      payload: productToAdd
     })
   } catch (err) {
     if (err.message === `Product not found with id: ${pid}`) {
@@ -67,6 +67,60 @@ router.put('/:cid/products/:pid', async (req, res) => {
       return res.status(400).json({
         status: false,
         message: 'Not enough stock'
+      })
+    }
+    res.status(500).json({
+      success: false,
+      message: 'Unexpected error'
+    })
+  }
+})
+
+router.put('/:cid', async (req, res) => {
+  try {
+    const { cid } = req.params
+    const { products } = req.body
+    const cart = await cartManager.updateCart(cid, products)
+    res.status(200).json({
+      success: true,
+      message: 'Cart updated successfully',
+      payload: cart
+    })
+  } catch (err) {
+    if (err.message === 'Error updating cart') {
+      return res.status(400).json({
+        success: false,
+        message: 'Error updating cart'
+      })
+    }
+    res.status(500).json({
+      success: false,
+      message: 'Unexpected error'
+    })
+  }
+})
+
+router.put('/:cid/products/:pid', async (req, res) => {
+  const { cid, pid } = req.params
+  const { quantity } = req.body
+  try {
+    const cart = await cartManager.updateProductQuantity(cid, pid, quantity)
+    res.status(200).json({
+      success: true,
+      message: 'Product quantity updated',
+      payload: cart
+    })
+  } catch (err) {
+    if (err.message === `Cart not found by id: ${cid}`) {
+      return res.status(400).json({
+        success: false,
+        message: `Cart not found by id: ${cid}`
+      })
+    }
+    if (err.message === 'Product not found in cart') {
+      return res.status(400).json({
+        success: false,
+        message: 'Product not found in cart'
       })
     }
     res.status(500).json({
@@ -106,7 +160,7 @@ router.delete('/:cid/products/:pid', async (req, res) => {
 router.delete('/:cid', async (req, res) => {
   const { cid } = req.params
   try {
-    await cartManager.deleteCart(cid)
+    await cartManager.clearCart(cid)
     res.status(200).json({
       success: true,
       message: 'Cart reseted succesfully'

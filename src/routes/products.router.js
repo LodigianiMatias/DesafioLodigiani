@@ -6,38 +6,44 @@ import productManager from '../services/ProductManager.js'
 const router = Router()
 
 router.get('/', async (req, res) => {
+  const queryParams = req.query
   try {
-    const products = await productManager.getProducts(parseInt(req.query.limit))
+    const products = await productManager.getProducts(queryParams)
     res.status(200).json({
-      status: true,
-      message: 'Database loaded',
-      payload: products
+      success: true,
+      products
     })
   } catch (err) {
-    if (err.message === 'Invalid limit') {
+    if (err.message === 'Pagination error') {
       return res.status(400).json({
-        status: false,
-        message: 'Invalid limit'
+        success: false,
+        message: 'Pagination error'
       })
     }
-    return res.status(500).json({
-      status: false,
+    res.status(500).json({
+      success: false,
       message: 'Unexpected error'
     })
   }
 })
 
 router.get('/:pid', async (req, res) => {
-  const idRequested = req.params.pid
+  const { pid } = req.params
   try {
-    const userSearch = await productManager.getProductById(idRequested)
+    const product = await productManager.getProductById(pid)
     return res.status(200).json({
-      status: true,
-      payload: userSearch
+      success: true,
+      payload: product
     })
-  } catch (error) {
+  } catch (err) {
+    if (err.message === `Product not found by id: ${pid}`) {
+      return res.status(400).json({
+        success: false,
+        message: `Product not found by id: ${pid}`
+      })
+    }
     res.status(400).json({
-      status: false,
+      success: false,
       error: 'Product id not found'
     })
   }
@@ -51,31 +57,31 @@ router.post('/', async (req, res) => {
     }
     const product = await productManager.addProduct(productToAdd)
     res.status(200).json({
-      status: true,
+      success: true,
       message: 'Product succesfully added',
       payload: product
     })
   } catch (err) {
     if (err.message === 'Product code already exists. Try with another code') {
       return res.status(409).json({
-        status: false,
+        success: false,
         error: 'Product code already exists. Try with another code'
       })
     }
     if (err.message === 'You must to complete all the fields') {
       return res.status(400).json({
-        status: false,
+        success: false,
         error: 'You must to complete all the fields'
       })
     }
     if (err.code === 11000) {
       return res.status(400).json({
-        status: false,
+        success: false,
         error: 'Product code already exists. Try with another one'
       })
     }
     return res.status(500).json({
-      status: false,
+      success: false,
       error: 'Unexpected error'
     })
   }

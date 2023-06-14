@@ -14,7 +14,8 @@ const cartSchema = new Schema({
           required: true,
           min: 1,
           default: 1
-        }
+        },
+        _id: false
       }
     ],
     default: [],
