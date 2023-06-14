@@ -1,0 +1,17 @@
+<h1 style="text-align: center;" class="mt-2">{{product.title}}</h1>
+<ul style="display: flex; justify-content: space-between; flex-wrap: wrap; width: 90%; position: relative; left: 40%;">
+  <li id={{product._id}}>
+    <div  class="card my-2 mx-2" style="width: 18rem; flex-grow: 1;">
+      <img src="{{product.thumbnails}}" class="card-img-top" alt="Imagen ilustrativa" id="imageRealTime">
+      <div class="card-body">
+        <a href="#" class="card-title nav-link"><h5 class="text-center" id="titleRealTime">{{product.title}}</h5></a>
+        <p class="card-text text-center" id="descRealTime">{{product.desc}}</p>
+        <p class="card-text text-center pb-2" id="priceRealTime">Price: ${{product.price}}</p>
+        <div class="mx-2 mb-2 d-flex justify-content-around">
+          <a href="#" class="btn btn-secondary">Add</a>
+          <a href="#" class="btn btn-danger" onclick='eliminateProduct("{{product._id}}")'>Delete</a>
+        </div>
+      </div>
+    </div>
+  </li>
+</ul>

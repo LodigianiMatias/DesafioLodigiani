@@ -1,0 +1,22 @@
+<h1 class="text-center">Carrito</h1>
+
+<div>
+  <table class="table">
+  <thead>
+    <tr>
+      <th scope="col" class="text-start">Product</th>
+      <th scope="col" class="text-center">Price</th>
+      <th scope="col" class="text-center">Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each cart.products}}
+    <tr>
+      <td class="text-start">{{this.product.title}}</td>
+      <td class="text-center">${{this.product.price}}</td>
+      <td class="text-center">{{this.quantity}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+</div>

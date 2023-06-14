@@ -11,7 +11,7 @@ class CartManager {
   }
 
   async getCartById (cid) {
-    return await CartModel.findOne({ _id: cid }).populate('products.product', { title: 1, thumbnails: 1, desc: 1 }).orFail(new Error(`Cart not found with id: ${cid}`))
+    return await CartModel.findOne({ _id: cid }).populate('products.product', { title: 1, thumbnails: 1, desc: 1, price: 1 }).lean().orFail(new Error(`Cart not found with id: ${cid}`))
   }
 
   async addProductsToCart (cid, pid) {

@@ -4,16 +4,12 @@
       <li class="page-item ">
         <a class="page-link" href="/?page={{pagination.prevPage}}">Previous</a>
       </li>
-    {{/if}}
-    
-    {{#if pagination.hasPrevPage}}
       <li class="page-item"><a class="page-link" href="/?page={{pagination.prevPage}}">{{pagination.prevPage}}</a></li>
     {{/if}}
     <li class="page-item disabled"><a class="page-link" href="#">{{pagination.page}}</a></li>
+
     {{#if pagination.hasNextPage}}
-    <li class="page-item"><a class="page-link" href="/?page={{pagination.nextPage}}">{{pagination.nextPage}}</a></li>
-    {{/if}}
-    {{#if pagination.hasNextPage}}
+      <li class="page-item"><a class="page-link" href="/?page={{pagination.nextPage}}">{{pagination.nextPage}}</a></li>
       <li class="page-item">
         <a class="page-link" href="/?page={{pagination.nextPage}}">Next</a>
       </li>

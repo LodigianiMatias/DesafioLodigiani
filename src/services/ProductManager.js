@@ -24,12 +24,7 @@ export class ProductManager {
   }
 
   async getProductById (id) {
-    const findIndex = await ProductModel.findOne({ _id: id })
-    if (findIndex) {
-      return findIndex
-    } else {
-      throw new Error(`Product not found by id: ${id}`)
-    }
+    return await ProductModel.findOne({ _id: id }).orFail(new Error(`Product not found by id: ${id}`)).lean()
   }
 
   async updateProduct (id, product) {
