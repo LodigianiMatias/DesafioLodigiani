@@ -1,8 +1,8 @@
 import { Router } from 'express'
 
-const app = Router()
+const router = Router()
 
-app.get('/', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     return res.status(200).render('chat', { name: 'Chat Websocket' })
   } catch (err) {
@@ -13,4 +13,4 @@ app.get('/', async (req, res) => {
   }
 })
 
-export default app
+export default router

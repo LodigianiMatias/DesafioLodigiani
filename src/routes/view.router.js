@@ -1,9 +1,10 @@
 import { ProductModel } from '../DAO/models/products.model.js'
 import { Router } from 'express'
-import carts from './cart.router.js'
+import carts from './cart.view.router.js'
 import productManager from '../services/ProductManager.js'
 import realTimeChat from './chat.router.js'
 import realTimeRouter from './realtime.router.js'
+import sessionRouter from './session.router.js'
 
 const router = Router()
 
@@ -33,8 +34,9 @@ router.get('/:pid', async (req, res) => {
   }
 })
 
-router.use('/', realTimeRouter)
+router.use('/realtimeproducts', realTimeRouter)
 router.use('/chat', realTimeChat)
 router.use('/cart', carts)
+router.use(('/session', sessionRouter))
 
 export default router

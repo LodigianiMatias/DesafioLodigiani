@@ -3,7 +3,7 @@ import { Router } from 'express'
 
 const router = Router()
 
-router.get('/realtimeproducts', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const { page } = req.query
     const productsPaginated = await ProductModel.paginate({}, { limit: 3, page: page || 1 })

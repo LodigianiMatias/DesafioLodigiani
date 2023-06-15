@@ -16,7 +16,10 @@ export class ProductManager {
       limit: parseInt(limit),
       sort: sort === 'desc' ? '-price' : 'price'
     }
-    const result = await ProductModel.paginate(filter, options).orFail('Pagination error')
+    const result = await ProductModel.paginate(filter, options)
+    if (!result) {
+      throw new Error('Pagination error')
+    }
 
     const response = {
       payload: result.docs,
