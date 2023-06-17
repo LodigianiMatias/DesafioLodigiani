@@ -1,9 +1,10 @@
-import { ProductModel } from '../DAO/models/products.model.js'
+import { ProductModel } from '../../DAO/models/products.model.js'
 import { Router } from 'express'
+import { isLoguedIn } from '../../middlewares/clientRoutesSession.js'
 
 const router = Router()
 
-router.get('/', async (req, res) => {
+router.get('/', isLoguedIn, async (req, res) => {
   try {
     const { page } = req.query
     const productsPaginated = await ProductModel.paginate({}, { limit: 3, page: page || 1 })

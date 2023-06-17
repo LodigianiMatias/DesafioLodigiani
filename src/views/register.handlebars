@@ -1,1 +1,53 @@
-<h1>Register</h1>
+<h1 class="text-center pt-5">Registro</h1>
+<div class="d-flex justify-content-center pb-4" style="position: relative; border: 3px solid rgb(92, 0, 0); width: 20%; left: 40%; border-radius: 10px">
+  <form id="registerForm">
+    <div class="d-flex justify-content-center pt-3">
+      <label for="name" class="pe-2">Nombre: </label>
+      <input type="text" id="name" name="name" placeholder="Ingrese su nombre">
+    </div>
+      <br/>
+    <div>
+      <label for="lastname" class="pe-2">Apellido: </label>
+      <input type="text" id="lastname" name="lastname" placeholder="Ingrese su apellido">
+    </div>
+      <br/>
+    <div class="d-flex justify-content-center"> 
+      <label for="email" class="pe-2">Email:</label>
+      <input type="email" id="email" name="email" placeholder="Ingrese su email">
+    </div>
+      <br/>
+    <div class="d-flex justify-content-center pb-4">
+      <label for="password" class="pe-2">Contraseña: </label>
+      <input type="password" name="password" id="password" placeholder="Ingrese su contraseña">
+    </div>
+    <div class="d-flex justify-content-center">
+      <button type="submit">Registrarse</button>
+    </div>
+  </form>
+</div>
+<h5 class="text-center">Ya tienes cuenta?</h5>
+<h5 class="text-center"><a href="http://localhost:8080/login">Sign In</a></h5>
+
+
+<script>
+  const registerForm = document.getElementById('registerForm')
+  registerForm.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    const registerData = Object.fromEntries(new FormData(e.target))
+    const response = await fetch('/api/session/register', {
+      method: 'post',
+      body: JSON.stringify(registerData),
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+
+    if(!response.ok) {
+      alert((await response.json()).error)
+      registerForm.focus()
+    }
+    if(response.redirected){
+      window.location.href = response.url
+    }
+  })
+</script>

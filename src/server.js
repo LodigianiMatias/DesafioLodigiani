@@ -1,12 +1,12 @@
 import { __dirname, connectMongo } from './utils.js'
 
-import apiRouter from './routes/api.router.js'
+import apiRouter from './routes/api/api.router.js'
 import express from 'express'
 import handlebars from 'express-handlebars'
 import { initSockets } from './socket/socketServer.js'
+import { mongoSession } from './middlewares/mongo-session.js'
 import path from 'path'
-import session from 'express-session'
-import viewRouter from './routes/view.router.js'
+import viewRouter from './routes/view/view.router.js'
 
 const PORT = 8080
 const app = express()
@@ -26,7 +26,7 @@ app.set('view engine', 'handlebars')
 app.use(express.static('src/public'))
 
 // SESSION
-app.use(session({ secret: 'un-re-secreto', resave: true, saveUninitialized: true }))
+app.use(mongoSession)
 
 app.use('/api', apiRouter)
 app.use('/', viewRouter)
@@ -35,5 +35,8 @@ const httpServer = app.listen(PORT, () => {
   console.log(`Server up and running on port http://localhost:${PORT}`)
 })
 
+app.get('*', (_, res) => {
+  res.status(404).render('404', { name: 'URL not found' })
+})
 // SOCKET IO
 initSockets(httpServer)
