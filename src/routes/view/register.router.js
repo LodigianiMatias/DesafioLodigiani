@@ -6,7 +6,7 @@ router.get('/', (req, res) => {
   if (req.session.user) {
     return res.redirect('/')
   }
-  res.render('register', { name: 'Register' })
+  res.render('register', { name: 'Register | Ecommerce' })
 })
 
 export default router

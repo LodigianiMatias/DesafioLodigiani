@@ -24,7 +24,7 @@
   loginForm.addEventListener('submit', async (e) => {
     e.preventDefault()
     const loginData = Object.fromEntries(new FormData(e.target))
-    const response = await fetch('/api/session/login', {
+    const response = await fetch('/api/sessions/login', {
       method: 'post',
       body: JSON.stringify(loginData),
       headers: {

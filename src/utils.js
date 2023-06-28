@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt'
 import { fileURLToPath } from 'url'
 import mongoose from 'mongoose'
 import multer from 'multer'
@@ -23,7 +24,7 @@ export const __dirname = path.dirname(__filename)
 export async function connectMongo () {
   try {
     await mongoose.connect(
-      'mongodb+srv://lodigianimatias97:UqL8e4QrIGRN7r6S@ecommercelodigiani.ugbdtrs.mongodb.net/ecommerceLodigiani?retryWrites=true&w=majority'
+      process.env.MONGO_URL
     )
     console.log('Plug to Mongo')
   } catch (e) {
@@ -31,3 +32,7 @@ export async function connectMongo () {
     process.exit()
   }
 }
+
+// PASSPORT
+export const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10))
+export const isValidPassword = (password, hashPassword) => bcrypt.compareSync(password, hashPassword)

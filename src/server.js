@@ -4,9 +4,13 @@ import apiRouter from './routes/api/api.router.js'
 import express from 'express'
 import handlebars from 'express-handlebars'
 import { initSockets } from './socket/socketServer.js'
+import initializePassport from './configuration/passport.config.js'
 import { mongoSession } from './middlewares/mongo-session.js'
+import passport from 'passport'
 import path from 'path'
 import viewRouter from './routes/view/view.router.js'
+
+// import initializePassport from './configuration/passport.config.js'
 
 const PORT = 8080
 const app = express()
@@ -25,12 +29,19 @@ app.set('view engine', 'handlebars')
 // MULTER
 app.use(express.static('src/public'))
 
-// SESSION
+// PASSPORT
 app.use(mongoSession)
+initializePassport()
 
+// SESSION
+app.use(passport.initialize())
+app.use(passport.session())
+
+// ROUTERS
 app.use('/api', apiRouter)
 app.use('/', viewRouter)
 
+// SERVER
 const httpServer = app.listen(PORT, () => {
   console.log(`Server up and running on port http://localhost:${PORT}`)
 })

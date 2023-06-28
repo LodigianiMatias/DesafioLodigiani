@@ -1,0 +1,8 @@
+App ID: 350811
+
+Client ID: Iv1.d42bdff3051f7516
+
+Client Secret GitHub
+28958204d1e9cc769471f972cbc163b105fc4703
+
+Callback URL: http://localhost:8080/api/sessions/github
