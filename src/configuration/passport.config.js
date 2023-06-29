@@ -1,11 +1,12 @@
-import 'dotenv/config'
-
 import { createHash, isValidPassword } from '../utils.js'
 
 import GitHubStrategy from 'passport-github2'
 import { UsersModel } from '../DAO/models/users.model.js'
+import { config } from 'dotenv'
 import local from 'passport-local'
 import passport from 'passport'
+
+config({ path: './vars/.env' })
 
 const LocalStrategy = local.Strategy
 
