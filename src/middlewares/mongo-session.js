@@ -1,10 +1,12 @@
+import 'dotenv/config'
+
 import MongoStore from 'connect-mongo'
 import session from 'express-session'
 
 export const mongoSession = session({
-  secret: 'un-re-secreto',
+  secret: process.env.SESSION_SECRET,
   store: MongoStore.create({
-    mongoUrl: 'mongodb+srv://lodigianimatias97:UqL8e4QrIGRN7r6S@ecommercelodigiani.ugbdtrs.mongodb.net/ecommerceLodigiani?retryWrites=true&w=majority',
+    mongoUrl: process.env.MONGO_URL,
     autoRemove: 'native',
     ttl: 60
   }),
