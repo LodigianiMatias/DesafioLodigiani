@@ -7,12 +7,11 @@ const router = Router()
 
 router.use('/register', apiRegisterRouter)
 router.use('/login', apiLoginRouter)
+router.use('/github', githubRouter)
 
 router.delete('/logout', async (req, res) => {
   req.session.destroy()
   res.redirect('/login')
 })
-
-router.use('/github', githubRouter)
 
 export default router

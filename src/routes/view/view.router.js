@@ -15,7 +15,6 @@ const router = Router()
 router.use('/realtimeproducts', realTimeRouter)
 router.use('/chat', realTimeChat)
 router.use('/cart', carts)
-
 router.use('/products', productRouter)
 router.use('/login', loginRouter)
 router.use('/register', registerRouter)

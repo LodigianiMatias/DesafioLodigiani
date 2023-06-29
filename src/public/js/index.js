@@ -9,3 +9,5 @@ async function logout () {
     window.location.href = response.url
   }
 }
+
+console.log()

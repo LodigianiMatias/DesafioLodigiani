@@ -81,8 +81,8 @@ const initializePassport = () => {
           if (!user) {
             const newUser = {
               email: profile.email,
-              firstName: profile._json.name || profile._json.login || 'noname',
-              lastName: 'nolast',
+              name: profile._json.name || profile._json.login || 'noname',
+              lastname: 'nolast',
               password: 'nopass'
             }
             const userCreated = await UsersModel.create(newUser)
@@ -101,14 +101,13 @@ const initializePassport = () => {
     )
   )
 
-  passport.serializeUser(async function (user, done) {
-    done(null, user.id)
+  passport.serializeUser((user, done) => {
+    done(null, user._id)
   })
 
-  passport.deserializeUser(async function (id, done) {
-    await UsersModel.findById(id, function (err, user) {
-      done(err, user)
-    })
+  passport.deserializeUser(async (id, done) => {
+    const user = await UsersModel.findById(id)
+    done(null, user)
   })
 }
 
