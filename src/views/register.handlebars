@@ -25,6 +25,7 @@
     </div>
   </form>
 </div>
+<div  class="d-flex justify-content-center"><h5 id="msg-success" class="text-success"></h5></div>
 <h5 class="text-center">¿Ya tienes cuenta?</h5>
 <h5 class="text-center"><a href="http://localhost:8080/login">Sign In</a></h5>
 
@@ -46,8 +47,9 @@
       alert((await response.json()).error)
       registerForm.focus()
     }
-    if(response.redirected){
-      window.location.href = response.url
-    }
+
+    const msgSuccess = document.getElementById('msg-success')
+    msgSuccess.innerHTML = 'Registro exitoso'
+    registerForm.reset()
   })
 </script>

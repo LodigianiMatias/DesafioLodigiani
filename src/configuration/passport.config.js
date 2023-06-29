@@ -57,10 +57,8 @@ const initializePassport = () => {
             password: createHash(password)
           }
           const userCreated = await UsersModel.create(newUser)
-          console.log('User Registration succesful')
           return done(null, userCreated)
         } catch (e) {
-          console.log('Error in register')
           console.log(e)
           return done(e)
         }

@@ -4,7 +4,7 @@ const router = Router()
 
 router.get('/', (req, res) => {
   if (req.user) {
-    return res.redirect('/')
+    req.session.destroy()
   }
   res.status(200).render('login', { name: 'Login | Ecommerce' })
 })
