@@ -32,8 +32,7 @@ const userSchema = new mongoose.Schema({
     required: true
   },
   lastname: {
-    type: String,
-    required: true
+    type: String
   },
   currentCartId: {
     type: String,
