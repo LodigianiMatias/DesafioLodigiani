@@ -1,5 +1,6 @@
 import { createHash, isValidPassword } from '../utils.js'
 
+import { CartModel } from '../DAO/models/carts.model.js'
 import GitHubStrategy from 'passport-github2'
 import { UsersModel } from '../DAO/models/users.model.js'
 import { config } from 'dotenv'
@@ -43,7 +44,7 @@ const initializePassport = () => {
       },
       async (req, username, password, done) => {
         try {
-          const { email, name, lastname } = req.body
+          const { email, name, lastname, age, currentCartId } = req.body
           const user = await UsersModel.findOne({ email: username })
           if (user) {
             console.log('User already exists')
@@ -54,6 +55,8 @@ const initializePassport = () => {
             email,
             name,
             lastname,
+            age,
+            currentCartId,
             password: createHash(password)
           }
           const userCreated = await UsersModel.create(newUser)
@@ -87,17 +90,19 @@ const initializePassport = () => {
           const emails = await res.json()
           const emailDetail = emails.find((email) => email.verified === true)
           if (!emailDetail) {
-            return done(new Error('cannot get a valid email for this user'))
+            return done(new Error('Can not get a valid email for this user'))
           }
           profile.email = emailDetail.email
 
+          const currentCartId = await CartModel.create({})
           const user = await UsersModel.findOne({ email: profile.email })
           if (!user) {
             const newUser = {
               email: profile.email,
               name: profile._json.name || profile._json.login || 'noname',
               lastname: undefined,
-              password: 'nopass'
+              password: 'nopass',
+              currentCartId: currentCartId._id
             }
             const userCreated = await UsersModel.create(newUser)
             return done(null, userCreated)

@@ -3,26 +3,6 @@ import cartManager from '../../services/CartManager.js'
 
 const router = Router()
 
-router.post('/', async (req, res) => {
-  try {
-    const cart = await cartManager.createCart()
-    res.status(201).json({
-      message: 'Cart created succesfully',
-      payload: cart
-    })
-  } catch (error) {
-    if (error.message === 'Error creating cart') {
-      return res.status(400).json({
-        error: 'Error creating cart'
-      })
-    }
-    res.status(500).json({
-      status: false,
-      message: 'Unexpected error'
-    })
-  }
-})
-
 router.get('/:cid', async (req, res) => {
   const { cid } = req.params
   try {
@@ -174,6 +154,26 @@ router.delete('/:cid', async (req, res) => {
     }
     res.status(500).json({
       error: 'Unexpected error'
+    })
+  }
+})
+
+router.post('/', async (req, res) => {
+  try {
+    const cart = await cartManager.createCart()
+    res.status(201).json({
+      message: 'Cart created succesfully',
+      payload: cart
+    })
+  } catch (error) {
+    if (error.message === 'Error creating cart') {
+      return res.status(400).json({
+        error: 'Error creating cart'
+      })
+    }
+    res.status(500).json({
+      status: false,
+      message: 'Unexpected error'
     })
   }
 })

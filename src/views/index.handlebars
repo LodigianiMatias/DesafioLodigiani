@@ -13,7 +13,7 @@
         <p class="card-text text-center" id="descRealTime">{{product.desc}}</p>
         <p class="card-text text-center pb-2" id="priceRealTime">Price: ${{product.price}}</p>
         <div class="mx-2 mb-2 d-flex justify-content-around">
-          <a href="#" class="btn btn-secondary">Add</a>
+          <a href="#" class="btn btn-secondary" onclick='addProduct("{{product._id}}")'>Add to cart</a>
           <a href="#" class="btn btn-danger" onclick='eliminateProduct("{{product._id}}")'>Delete</a>
         </div>
       </div>
@@ -68,7 +68,7 @@
         <p class="card-text text-center" id="descRealTime">${data.payload.desc}</p>
         <p class="card-text text-center pb-2" id="priceRealTime">Price: $${data.payload.price}</p>
         <div class="mx-2 mb-2 d-flex justify-content-around">
-          <a href="#" class="btn btn-secondary">Buy</a>
+          <a href="#" class="btn btn-secondary" onclick='addProduct("${data.payload._id}")'>Add to cart</a>
           <a href="#" class="btn btn-danger" onclick='eliminateProduct("${data.payload._id}")'>Delete</a>
         </div>
         </div>
@@ -82,15 +82,56 @@
     }   
   })
 
+  async function addProduct(productId) {
+    try {
+      const session = await fetch('/api/session/current', {
+        method: "GET"
+      }).then(res => res.json())
+      const response = await fetch('/api/cart/'+session.user.currentCartId+'/products/'+productId, {
+      method: "POST"
+      })
+
+      if(response.ok) {
+        Toastify({
+          text: "Producto agregado con éxito",
+          duration: 3000,
+          destination: "#",
+          className: "toastify",
+          newWindow: true,
+          close: false,
+          gravity: "bottom",
+          position: "right",
+          stopOnFocus: true,
+}).showToast();
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   async function eliminateProduct(id) {
     try {
       const response = await fetch('/api/products/'+id, {
       method: "DELETE"
     })
+
+    if (response.ok) {
+      Toastify({
+        text: "Producto eliminado con éxito",
+        duration: 3000,
+        destination: "#",
+        className: "toastify",
+        newWindow: true,
+        close: false,
+        gravity: "bottom",
+        position: "right",
+        stopOnFocus: true,
+}).showToast();
+    }
     const li = document.getElementById(id)
     li.remove()
     } catch (err) {
-      return
+      console.log(err)
     }
   }
 </script>

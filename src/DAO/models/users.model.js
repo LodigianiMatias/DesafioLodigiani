@@ -34,6 +34,9 @@ const userSchema = new mongoose.Schema({
   lastname: {
     type: String
   },
+  age: {
+    type: Number
+  },
   currentCartId: {
     type: String,
     required: false
