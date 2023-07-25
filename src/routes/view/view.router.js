@@ -1,4 +1,3 @@
-import { ProductModel } from '../../DAO/models/products.model.js'
 import { Router } from 'express'
 import carts from './cart.view.router.js'
 import failLoginRouter from './faillogin.router.js'
@@ -6,6 +5,7 @@ import failRegisterRouter from './failregister.router.js'
 import { isLoguedIn } from '../../middlewares/clientRoutesSession.js'
 import loginRouter from './login.router.js'
 import productRouter from './product.router.js'
+import productViewController from '../../controllers/productView.controller.js'
 import realTimeChat from './chat.router.js'
 import realTimeRouter from './realtime.router.js'
 import registerRouter from './register.router.js'
@@ -21,20 +21,6 @@ router.use('/register', registerRouter)
 router.use('/failregister', failRegisterRouter)
 router.use('/errorlogin', failLoginRouter)
 
-router.get('/', isLoguedIn, async (req, res) => {
-  try {
-    const { page, limit, query, sort } = req.query
-    const productsPaginated = await ProductModel.paginate({}, { limit: limit || 3, page: page || 1, query: query || null, sort: sort || null })
-    const { docs, ...rest } = productsPaginated
-    const products = docs.map((item) => {
-      return { _id: item._id, title: item.title, desc: item.desc, thumbnails: item.thumbnails, price: item.price }
-    })
-    return res.status(200).render('index', { name: 'Página de inicio', products, pagination: rest, user: req.session.user })
-  } catch (err) {
-    res.status(400).json({
-      error: 'Could not get the product list'
-    })
-  }
-})
+router.get('/', isLoguedIn, productViewController.viewProducts)
 
 export default router

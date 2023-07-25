@@ -1,10 +1,8 @@
 import { Router } from 'express'
+import userController from '../../controllers/user.controller.js'
 
 const router = Router()
 
-router.get('/', async (req, res) => {
-  const user = req.session
-  res.json(user)
-})
+router.get('/', userController.currentSession)
 
 export default router

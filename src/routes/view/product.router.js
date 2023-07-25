@@ -1,17 +1,9 @@
 import { Router } from 'express'
 import { isLoguedIn } from '../../middlewares/clientRoutesSession.js'
-import productManager from '../../services/ProductManager.js'
+import productViewController from '../../controllers/productView.controller.js'
 
 const router = Router()
 
-router.get('/:pid', isLoguedIn, async (req, res) => {
-  const { pid } = req.params
-  try {
-    const product = await productManager.getProductById(pid)
-    return res.status(200).render('oneProduct', { name: product.title, product })
-  } catch (err) {
-    res.status(404).render('404')
-  }
-})
+router.get('/:pid', isLoguedIn, productViewController.oneProduct)
 
 export default router
