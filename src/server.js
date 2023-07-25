@@ -10,8 +10,6 @@ import passport from 'passport'
 import path from 'path'
 import viewRouter from './routes/view/view.router.js'
 
-// import initializePassport from './configuration/passport.config.js'
-
 const PORT = 8080
 const app = express()
 
