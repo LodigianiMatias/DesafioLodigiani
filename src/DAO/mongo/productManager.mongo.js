@@ -1,6 +1,6 @@
-import { ProductModel } from '../DAO/models/products.model.js'
+import { ProductModel } from './models/products.model.js'
 
-export class ProductManager {
+class ProductManager {
   async getProducts (queryParams) {
     const { limit = queryParams.limit || 10, page = queryParams.page || 1, sort, query } = queryParams
     const filter = {}
@@ -33,7 +33,7 @@ export class ProductManager {
       nextLink: result.hasNextPage ? `/api/products?limit=${limit}&page=${result.nextPage}` : null
     }
     return response
-  };
+  }
 
   async addProduct (product) {
     if (!product.title ||

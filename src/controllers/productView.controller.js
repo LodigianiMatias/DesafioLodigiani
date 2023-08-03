@@ -1,5 +1,5 @@
-import { ProductModel } from '../DAO/models/products.model.js'
-import productManager from '../services/ProductManager.js'
+import { ProductModel } from '../DAO/mongo/models/products.model.js'
+import productManager from '../services/productService.js'
 
 class ProductViewController {
   async realTime (req, res) {

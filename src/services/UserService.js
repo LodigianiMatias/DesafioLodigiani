@@ -1,4 +1,4 @@
-import { UsersModel } from '../DAO/models/users.model.js'
+import { UsersModel } from '../DAO/mongo/models/users.model.js'
 import bcrypt from 'bcrypt'
 
 class UserService {

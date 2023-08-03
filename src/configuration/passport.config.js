@@ -1,8 +1,8 @@
 import { createHash, isValidPassword } from '../utils.js'
 
-import { CartModel } from '../DAO/models/carts.model.js'
+import { CartModel } from '../DAO/mongo/models/carts.model.js'
 import GitHubStrategy from 'passport-github2'
-import { UsersModel } from '../DAO/models/users.model.js'
+import { UsersModel } from '../DAO/mongo/models/users.model.js'
 import { config } from 'dotenv'
 import fetch from 'node-fetch'
 import local from 'passport-local'

@@ -1,4 +1,4 @@
-import cartManager from '../services/CartManager.js'
+import cartManager from '../services/cartService.js'
 
 class CartController {
   async getCartById (req, res) {

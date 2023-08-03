@@ -1,6 +1,6 @@
-import { MsgModel } from '../DAO/models/chat.model.js'
+import { MsgModel } from '../DAO/mongo/models/chat.model.js'
 import { Server } from 'socket.io'
-import productManager from '../services/ProductManager.js'
+import productManager from '../services/productService.js'
 
 export const initSockets = (server) => {
   const ioServer = new Server(server)
