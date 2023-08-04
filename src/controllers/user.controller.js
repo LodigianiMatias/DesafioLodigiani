@@ -1,9 +1,11 @@
+import UserDTO from '../DAO/DTO/user.DTO.js'
+
 class UserController {
   registrationLocal (req, res) {
     if (!req.user) {
       return res.json({ error: 'Could not register' })
     }
-    req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName, currentCartId: req.user.currentCartId }
+    req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.name, lastName: req.user.lastName, currentCartId: req.user.currentCartId, role: req.user.role }
 
     res.status(200).json({ message: 'User registered' })
   }
@@ -24,7 +26,8 @@ class UserController {
 
   currentSession (req, res) {
     const user = req.session
-    res.json(user)
+    const DTO = new UserDTO(user.user)
+    res.json(DTO)
   }
 
   deleteSession (req, res) {

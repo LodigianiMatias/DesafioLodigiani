@@ -1,4 +1,6 @@
-import ProductManager from '../DAO/mongo/productManager.mongo.js'
+// import ProductManager from '../DAO/mongo/productManager.mongo.js'
+
+import { ProductManager } from '../DAO/facotry.js'
 
 class ProductService {
   async getProducts (queryParams) {
