@@ -1,11 +1,10 @@
 import { Router } from 'express'
-import { isLoguedIn } from '../../middlewares/clientRoutesSession.js'
 
 const router = Router()
 
-router.get('/', isLoguedIn, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    return res.status(200).render('chat', { name: 'Chat Websocket' })
+    return res.status(200).render('chat', { name: 'Chat Websocket', user: req.session.user })
   } catch (err) {
     res.status(500).json({
       success: false,

@@ -56,10 +56,20 @@
     if(!response.ok) {
       alert((await response.json()).error)
       registerForm.focus()
+      return console.log('An error has ocurred')
     }
 
-    const msgSuccess = document.getElementById('msg-success')
-    msgSuccess.innerHTML = 'Registro exitoso'
+    Toastify({
+        text: "Se ha registrado correctamente",
+        duration: 3000,
+        destination: "#",
+        className: "toastify",
+        newWindow: true,
+        close: false,
+        gravity: "bottom",
+        position: "right",
+        stopOnFocus: true,
+}).showToast();
     registerForm.reset()
   })
 </script>

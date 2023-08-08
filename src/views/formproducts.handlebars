@@ -1,0 +1,47 @@
+<h1 style="text-align: center;" class="mt-2">Formulario para agregar productos</h1>
+
+{{>form}}
+
+<script>
+  const formProduct = document.getElementById('formProducts')
+  const divContainer = document.getElementById('ulContainer')
+  
+  formProduct.addEventListener('submit', async (event) => {
+    event.preventDefault()
+    event.stopPropagation()
+    
+    const inputTitle = document.getElementById('inputTitle').value
+    const inputDescription = document.getElementById('inputDescription').value
+    const inputPrice = document.getElementById('inputPrice').value
+    const inputCode = document.getElementById('inputCode').value
+    const inputStock = document.getElementById('inputStock').value
+    const errorAlert = document.getElementById('errorAlert')
+    const newProduct = {
+        title: inputTitle,
+        desc: inputDescription,
+        price: inputPrice,
+        code: inputCode,
+        stock: inputStock
+      }
+    
+
+    const response = await fetch('/api/products', {
+      method: "POST",
+      body: JSON.stringify(newProduct),
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+    if(response.ok) {
+      errorAlert.style.color = 'green'
+      errorAlert.innerText = 'Producto creado con éxito'
+      const data = await response.json()
+
+      formProduct.reset()
+    } else {
+      const data = await response.json()
+      errorAlert.style.color = 'red'
+      errorAlert.innerText = data.error
+    }   
+  })
+</script>
