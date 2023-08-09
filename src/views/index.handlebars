@@ -110,7 +110,7 @@
       const session = await fetch('/api/session/current', {
         method: "GET"
       }).then(res => res.json())
-      const response = await fetch('/api/cart/'+session.user.currentCartId+'/products/'+productId, {
+      const response = await fetch('/api/cart/'+session.currentCartId+'/products/'+productId, {
       method: "POST"
       })
 
