@@ -20,11 +20,9 @@ const initializePassport = () => {
       try {
         const user = await UsersModel.findOne({ email: username })
         if (!user) {
-          console.log('User Not Found with username (email) ' + username)
           return done(null, false)
         }
         if (!isValidPassword(password, user.password)) {
-          console.log('Invalid Password')
           return done(null, false)
         }
 
@@ -47,7 +45,6 @@ const initializePassport = () => {
           const { email, name, lastname, age, currentCartId } = req.body
           const user = await UsersModel.findOne({ email: username })
           if (user) {
-            console.log('User already exists')
             return done(null, false)
           }
 
