@@ -1,30 +1,20 @@
-import { UsersModel } from '../DAO/mongo/models/users.model.js'
-import bcrypt from 'bcrypt'
+import userManager from '../DAO/mongo/userManager.mongo.js'
 
 class UserService {
   async getUsers () {
-    try {
-      return await UsersModel.find({}).lean()
-    } catch (err) {
-      throw new Error(err.message)
-    }
+    return await userManager.getUsers()
   }
 
   async getUserById (id) {
-    return await UsersModel.findOne({ _id: id }).orFail(new Error(`User not found by id: ${id}`)).lean()
+    return await userManager.getUserById(id)
   }
 
   async addUser (user) {
-    const data = { ...user, password: bcrypt.hashSync(user.password, 10) }
-    return await UsersModel.create(data)
+    return await userManager.addUser(user)
   }
 
   async getUserByEmail (email) {
-    try {
-      return await UsersModel.findOne({ email }).lean()
-    } catch (err) {
-      throw new Error(err.message)
-    }
+    return await userManager.getUserByEmail(email)
   }
 }
 

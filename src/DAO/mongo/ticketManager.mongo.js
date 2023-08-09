@@ -1,27 +1,25 @@
-import TicketsSchema from './models/tickets.model.js'
+import { TicketModel } from './models/tickets.model.js'
 
 class TicketsDAO {
   async getAll () {
     try {
-      const tickets = await TicketsSchema.find({})
-      return tickets
-    } catch (error) {
-      console.log(error)
+      return await TicketModel.find({})
+    } catch (err) {
+      console.log(err)
     }
   }
 
   async getById (id) {
     try {
-      const ticket = await TicketsSchema.findOne({ _id: id }).lean()
-      return ticket
-    } catch (error) {
-      console.log(error)
+      return await TicketModel.findOne({ _id: id }).lean()
+    } catch (err) {
+      console.log(err)
     }
   }
 
   async add (ticket) {
     try {
-      const newTicket = await TicketsSchema.create(ticket)
+      const newTicket = await TicketModel.create(ticket)
       return newTicket
     } catch (error) {
       console.log(error)

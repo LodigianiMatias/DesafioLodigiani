@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import { Schema, model } from 'mongoose'
 
 export const ROLES = {
   ADMIN: 'admin',
@@ -6,7 +6,7 @@ export const ROLES = {
   USER_PREMIUM: 'user_premium'
 }
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
   email: {
     type: String,
     required: true,
@@ -43,4 +43,4 @@ const userSchema = new mongoose.Schema({
   }
 }, { versionKey: false, timestamps: true })
 
-export const UsersModel = mongoose.model('Users', userSchema)
+export const UsersModel = model('Users', userSchema)
