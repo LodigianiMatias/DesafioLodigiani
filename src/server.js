@@ -1,6 +1,8 @@
 import { __dirname, connectMongo } from './utils.js'
 
 import apiRouter from './routes/api/api.router.js'
+import compression from 'express-compression'
+import errorHandler from './middlewares/errors.middleware.js'
 import express from 'express'
 import handlebars from 'express-handlebars'
 import { initSockets } from './socket/socketServer.js'
@@ -13,6 +15,9 @@ import viewRouter from './routes/view/view.router.js'
 const PORT = 8080
 const app = express()
 
+app.use(compression({
+  brotli: { enabled: true, zlib: {} }
+}))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
@@ -38,6 +43,9 @@ app.use(passport.session())
 // ROUTERS
 app.use('/api', apiRouter)
 app.use('/', viewRouter)
+
+// ERROR HANDLER
+app.use(errorHandler)
 
 // SERVER
 const httpServer = app.listen(PORT, () => {

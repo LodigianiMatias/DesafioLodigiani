@@ -1,4 +1,6 @@
+import EErrors from '../../errors/enums.error.js'
 import { ProductModel } from './models/products.model.js'
+import customError from '../../errors/custom.error.js'
 
 class ProductManager {
   async getProducts (queryParams) {
@@ -18,7 +20,12 @@ class ProductManager {
     }
     const result = await ProductModel.paginate(filter, options)
     if (!result) {
-      throw new Error('Pagination error')
+      customError.createError({
+        name: 'Mongoose error',
+        cause: 'Pagination',
+        message: 'Pagination error',
+        code: EErrors.PRODUCT_ERROR
+      })
     }
 
     const response = {
@@ -41,7 +48,12 @@ class ProductManager {
             !product.price ||
             !product.code ||
             !product.stock) {
-      throw new Error('You must to complete all the fields')
+      customError.createError({
+        name: 'Fields error',
+        cause: 'Empty fields',
+        message: 'You must to complete all the fields',
+        code: EErrors.PRODUCT_ERROR
+      })
     }
     product.thumbnails = product.thumbnails ? product.thumbnails : '/thumbnails/placeholder.png'
     product.price = parseFloat(product.price)
@@ -49,19 +61,37 @@ class ProductManager {
     product.code = parseInt(product.code)
     product.status = product.status ?? true
 
-    const newProduct = await ProductModel.create(product)
+    const newProduct = await ProductModel.create(product).orFail(
+      customError.createError({
+        name: 'Create Error',
+        cause: 'Mongo',
+        message: 'Could not create the product',
+        code: EErrors.PRODUCT_ERROR
+      })
+    )
     return newProduct
   }
 
   async getProductById (pid) {
-    return await ProductModel.findOne({ _id: pid }).orFail(new Error(`Product not found by id: ${pid}`)).lean()
+    return await ProductModel.findOne({ _id: pid }).orFail(
+      customError.createError({
+        name: 'Get Error',
+        cause: 'Mongo',
+        message: `Product not found by id: ${pid}`,
+        code: EErrors.PRODUCT_ERROR
+      })
+    ).lean()
   }
 
   async updateProduct (id, product) {
     const searchProduct = await ProductModel.find({ _id: id })
-    console.log(searchProduct)
     if (searchProduct === undefined) {
-      throw new Error(`Product not found by id: ${id}`)
+      customError.createError({
+        name: 'Find error',
+        cause: 'Mongo',
+        message: `Product not found by id: ${id}`,
+        code: EErrors.PRODUCT_ERROR
+      })
     };
 
     if (!product.title ||
@@ -69,18 +99,44 @@ class ProductManager {
             !product.price ||
             !product.code ||
             !product.stock) {
-      throw new Error('You must to complete all the fields')
+      customError.createError({
+        name: 'Fields error',
+        cause: 'Empty Fields',
+        message: 'You must to complete all the fields',
+        code: EErrors.PRODUCT_ERROR
+      })
     }
 
     product.thumbnails = product.thumbnails ? product.thumbnails : '/thumbnails/placeholder.png'
 
-    await ProductModel.updateOne({ _id: id }, product)
-    return ProductModel.find({ _id: id })
+    await ProductModel.updateOne({ _id: id }, product).orFail(
+      customError.createError({
+        name: 'Update error',
+        cause: 'Mongo',
+        message: 'Error updating product',
+        code: EErrors.PRODUCT_ERROR
+      })
+    )
+    return ProductModel.find({ _id: id }).orFail(
+      customError.createError({
+        name: 'Find error',
+        cause: 'Mongo',
+        message: 'Error on finding product',
+        code: EErrors.PRODUCT_ERROR
+      })
+    )
   }
 
   async deleteProduct (id) {
     console.log(id)
-    return await ProductModel.deleteOne({ _id: id })
+    return await ProductModel.deleteOne({ _id: id }).orFail(
+      customError.createError({
+        name: 'Delete error',
+        cause: 'Mongo',
+        message: 'Error deleteing product',
+        code: EErrors.PRODUCT_ERROR
+      })
+    )
   }
 }
 
