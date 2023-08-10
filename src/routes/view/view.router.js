@@ -7,6 +7,7 @@ import failRegisterRouter from './failregister.router.js'
 import formProducts from './formproducts.router.js'
 import { isLoguedIn } from '../../middlewares/clientRoutesSession.js'
 import loginRouter from './login.router.js'
+import mockingRouter from './mocking.view.js'
 import productRouter from './product.router.js'
 import productViewController from '../../controllers/productView.controller.js'
 import realTimeChat from './chat.router.js'
@@ -24,6 +25,7 @@ router.use('/register', registerRouter)
 router.use('/failregister', failRegisterRouter)
 router.use('/formproducts', isLoguedIn, isAdmin, formProducts)
 router.use('/errorlogin', failLoginRouter)
+router.use('/mockingproducts', mockingRouter)
 
 router.get('/', isLoguedIn, productViewController.viewProducts)
 
