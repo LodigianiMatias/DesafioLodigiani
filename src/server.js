@@ -1,7 +1,9 @@
 import { __dirname, connectMongo } from './utils.js'
 
 import apiRouter from './routes/api/api.router.js'
+import cluster from 'cluster'
 import compression from 'express-compression'
+import { cpus } from 'os'
 import errorHandler from './middlewares/errors.middleware.js'
 import express from 'express'
 import handlebars from 'express-handlebars'
@@ -11,6 +13,11 @@ import { mongoSession } from './middlewares/mongo-session.js'
 import passport from 'passport'
 import path from 'path'
 import viewRouter from './routes/view/view.router.js'
+
+if (cluster.isPrimary) {
+  const numProcess = cpus().length
+  console.log('Numero de hilos: ' + numProcess)
+}
 
 const PORT = 8080
 const app = express()
