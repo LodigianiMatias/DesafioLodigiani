@@ -1,6 +1,6 @@
 import winston from 'winston'
 
-const logger = winston.createLogger({
+export const logger = winston.createLogger({
   transports: [
     new winston.transports.Console({
       level: 'debug',
@@ -14,8 +14,8 @@ const logger = winston.createLogger({
   ]
 })
 
-export const addLogger = (req, res, next) => {
-  req.logger = logger
-  req.logger.http(`${req.method} en ${req.url} - ${new Date().toLocaleTimeString}`)
-  next()
-}
+// export const addLogger = (req, res, next) => {
+//   req.logger = logger
+//   req.logger.http(`${req.method} en ${req.url} - ${new Date().toLocaleTimeString}`)
+//   next()
+// }

@@ -1,6 +1,5 @@
-import { __dirname, connectMongo } from './utils/utils.js'
+import { __dirname, connectMongo } from './utils.js'
 
-import { addLogger } from './utils/logger.utils.js'
 import apiRouter from './routes/api/api.router.js'
 import cluster from 'cluster'
 import compression from 'express-compression'
@@ -22,9 +21,6 @@ if (cluster.isPrimary) {
 
 const PORT = 8080
 const app = express()
-
-// LOGGER
-app.use(addLogger)
 
 // COMPRESSION
 app.use(compression({
