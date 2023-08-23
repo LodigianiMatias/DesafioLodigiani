@@ -6,6 +6,7 @@ import failLoginRouter from './faillogin.router.js'
 import failRegisterRouter from './failregister.router.js'
 import formProducts from './formproducts.router.js'
 import { isLoguedIn } from '../../middlewares/clientRoutesSession.js'
+import loggerRouter from './logger.js'
 import loginRouter from './login.router.js'
 import mockingRouter from './mocking.view.js'
 import productRouter from './product.router.js'
@@ -18,6 +19,7 @@ const router = Router()
 
 router.use('/realtimeproducts', isLoguedIn, realTimeRouter)
 router.use('/chat', isLoguedIn, isUser, realTimeChat)
+router.use('/loggerTest', loggerRouter)
 router.use('/cart', isLoguedIn, isUser, carts)
 router.use('/products', isLoguedIn, productRouter)
 router.use('/login', loginRouter)
