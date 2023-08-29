@@ -6,18 +6,19 @@ const ticketSchema = new Schema(
     purchase_datetime: { type: Date, default: Date.now(), required: true },
     amount: { type: Number, required: true },
     purchaser: { type: String, required: true, default: 'Anonymous:API' },
-    cart: {
-      type: [
-        {
-          product: {
-            type: Schema.Types.ObjectId,
-            ref: 'carts',
-            required: true
-          },
-          _id: false
-        }
-      ]
-    }
+    // cart: {
+    //   type: [
+    //     {
+    //       product: {
+    //         type: Schema.Types.ObjectId,
+    //         ref: 'carts',
+    //         required: true
+    //       },
+    //       _id: false
+    //     }
+    //   ]
+    // }
+    products: [{ idProduct: { type: Object }, _id: false, quantity: { type: Number }, totalPrice: { type: Number } }]
   },
   { versionKey: false }
 )

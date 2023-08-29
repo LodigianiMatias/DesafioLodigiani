@@ -7,9 +7,11 @@ router.get('/:cid', cartController.getCartById)
 
 router.post('/:cid/products/:pid', cartController.addProducts)
 
-router.put('/:cid', cartController.updateCart)
+router.post('/:cid/purchase', (req, res) => {})
 
 router.put('/:cid/products/:pid', cartController.updateQty)
+
+router.put('/:cid', cartController.updateCart)
 
 router.delete('/:cid/products/:pid', cartController.removeProducts)
 
