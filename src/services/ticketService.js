@@ -43,7 +43,7 @@ export class TicketService {
 
       return { cartWithStock, cartWithOutStock, totalPriceTicket }
     } catch (err) {
-      throw new Error('ERROR.')
+      console.log('Error in service stockcart')
     }
   }
 
