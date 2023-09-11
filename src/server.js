@@ -12,7 +12,11 @@ import initializePassport from './configuration/passport.config.js'
 import { mongoSession } from './middlewares/mongo-session.js'
 import passport from 'passport'
 import path from 'path'
+import swaggerJSDoc from 'swagger-jsdoc'
+import swaggerUiExpress from 'swagger-ui-express'
 import viewRouter from './routes/view/view.router.js'
+
+console.log(__dirname)
 
 if (cluster.isPrimary) {
   const numProcess = cpus().length
@@ -44,9 +48,24 @@ app.use(express.static('src/public'))
 app.use(mongoSession)
 initializePassport()
 
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.1',
+    info: {
+      title: 'Documentacion APIRest',
+      description: 'Este proyecto es un ecommerce de prueba creado en express por Matias Lodigiani'
+    }
+  },
+  apis: [`${__dirname}/docs/**/*.yaml`]
+}
+
 // SESSION
 app.use(passport.initialize())
 app.use(passport.session())
+
+// SWAGGER
+const specs = swaggerJSDoc(swaggerOptions)
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
 
 // ROUTERS
 app.use('/api', apiRouter)
