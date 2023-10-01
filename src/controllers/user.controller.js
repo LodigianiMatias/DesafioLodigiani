@@ -1,4 +1,5 @@
 import UserDTO from '../DAO/DTO/user.DTO.js'
+import UserService from '../services/UserService.js'
 
 class UserController {
   registrationLocal (req, res) {
@@ -33,6 +34,18 @@ class UserController {
   deleteSession (req, res) {
     req.session.destroy()
     res.redirect('/login')
+  }
+
+  async getAllUsers (req, res) {
+    try {
+      const users = await UserService.getUsers()
+      const usersDto = users.map(user => new UserDTO(user))
+      res.status(200).json(usersDto)
+    } catch (error) {
+      res.status(500).json({
+        error: 'Internal Server Error'
+      })
+    }
   }
 }
 
