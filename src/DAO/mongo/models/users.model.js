@@ -40,6 +40,11 @@ const userSchema = new Schema({
   currentCartId: {
     type: String,
     required: false
+  },
+  lastInteraction: {
+    type: Date,
+    required: false,
+    default: new Date()
   }
 }, { versionKey: false, timestamps: true })
 

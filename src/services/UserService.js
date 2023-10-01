@@ -16,6 +16,10 @@ class UserService {
   async getUserByEmail (email) {
     return await userManager.getUserByEmail(email)
   }
+
+  async deleteInactiveUsers () {
+    await userManager.deleteAllInactiveUsers()
+  }
 }
 
 export default new UserService()

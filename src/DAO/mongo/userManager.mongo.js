@@ -34,6 +34,29 @@ class UserManager {
       console.log(err.message)
     }
   }
+
+  async updateUser (id, userData) {
+    try {
+      const updated = await UsersModel.updateOne({ _id: id }, userData, { new: true })
+      return updated
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
+  async deleteAllInactiveUsers () {
+    try {
+      const today = new Date()
+      const usersDeleted = await UsersModel
+        .deleteMany({}, { returnDocument: true })
+        .where('lastInteraction')
+        .lte(today.setDate(today.getDate() - 2))
+      console.log({ usersDeleted })
+      // TODO: SEND EMAIL TO USERS DELETED
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
 }
 
 export default new UserManager()

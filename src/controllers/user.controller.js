@@ -47,6 +47,17 @@ class UserController {
       })
     }
   }
+
+  async deleteAllInactiveUsers (req, res) {
+    try {
+      await UserService.deleteInactiveUsers()
+      res.status(204).send()
+    } catch (error) {
+      res.status(500).json({
+        error: 'Internal Server Error'
+      })
+    }
+  }
 }
 
 export default new UserController()
