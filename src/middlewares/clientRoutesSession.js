@@ -1,4 +1,4 @@
-import userManagerMongo from '../DAO/mongo/userManager.mongo'
+import userManagerMongo from '../DAO/mongo/userManager.mongo.js'
 
 export const isLoguedIn = (req, res, next) => {
   if (!req.user) {
