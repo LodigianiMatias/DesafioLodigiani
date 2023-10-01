@@ -14,6 +14,7 @@ class TicketsController {
       const totalCart = ticketPreview.totalPriceTicket
       const oldProductsCart = ticketPreview.cartWithOutStock
 
+      console.log({ oldProductsCart })
       await cartService.updateCart(userCartId, oldProductsCart)
       const ticketCreated = await ticketService.addTicket(purchaser, ticket, totalCart)
       return res.status(200).json({ ticket: ticketCreated, totalCart, purchaser })

@@ -57,7 +57,8 @@ class CartManager {
 
   async updateCart (cid, cartUpdate) {
     try {
-      const updatedCart = await CartModel.findOneAndUpdate(cid, cartUpdate, { new: true })
+      const updatedCart = await CartModel.findOneAndUpdate(cid, { products: cartUpdate }, { new: true })
+      console.log({ updatedCart: updatedCart.products })
       return updatedCart
     } catch (err) {
       console.log(err)
