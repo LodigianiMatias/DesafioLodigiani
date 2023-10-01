@@ -1,5 +1,5 @@
 import cartService from './cartService.js'
-import { ticketDAO } from '../DAO/ticketDAO.js'
+import ticketDAO from '../DAO/mongo/ticketManager.mongo.js'
 import { v4 as uuidv4 } from 'uuid'
 
 export class TicketService {
@@ -27,7 +27,8 @@ export class TicketService {
       let totalPriceTicket = 0
 
       cartProductsTicket.cartProducts.forEach((item) => {
-        const idProduct = item.idProduct
+        console.log({ item })
+        const idProduct = item.product
         const quantityInCart = parseInt(item.quantity)
         const availableStock = parseInt(idProduct.stock)
         const ticketAmount = parseInt(idProduct.price)
@@ -43,11 +44,10 @@ export class TicketService {
 
       return { cartWithStock, cartWithOutStock, totalPriceTicket }
     } catch (err) {
+      console.log({ err })
       console.log('Error in service stockcart')
     }
   }
-
-  // FIN LLAVE TICKETSERVICE
 };
 
 export default new TicketService()

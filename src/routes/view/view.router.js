@@ -14,6 +14,7 @@ import productViewController from '../../controllers/productView.controller.js'
 import realTimeChat from './chat.router.js'
 import realTimeRouter from './realtime.router.js'
 import registerRouter from './register.router.js'
+import ticketViewRouter from './ticker.router.js'
 
 const router = Router()
 
@@ -28,6 +29,7 @@ router.use('/failregister', failRegisterRouter)
 router.use('/formproducts', isLoguedIn, isAdmin, formProducts)
 router.use('/errorlogin', failLoginRouter)
 router.use('/mockingproducts', mockingRouter)
+router.use('/ticket', ticketViewRouter)
 
 router.get('/', isLoguedIn, productViewController.viewProducts)
 

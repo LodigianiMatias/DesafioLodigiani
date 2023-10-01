@@ -9,7 +9,7 @@ export const mongoSession = session({
   store: MongoStore.create({
     mongoUrl: process.env.MONGO_URL,
     autoRemove: 'native',
-    ttl: 60
+    ttl: 180
   }),
   resave: true,
   saveUninitialized: true,

@@ -2,23 +2,43 @@
 
 <div>
   <table class="table">
-  <thead>
-    <tr>
-      <th scope="col" class="text-start">Product</th>
-      <th scope="col" class="text-center">Price</th>
-      <th scope="col" class="text-center">Quantity</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each cart.products}}
-    <tr>
-      <td class="text-start">{{this.product.title}}</td>
-      <td class="text-center">${{this.product.price}}</td>
-      <td class="text-center">{{this.quantity}}</td>
-    </tr>
-    {{/each}}
-    {{#if cart}}
-    <a href="/purchase">Finalizar compra</a>
-  </tbody>
-</table>
+    <thead>
+      <tr>
+        <th scope="col" class="text-start">Product</th>
+        <th scope="col" class="text-center">Price</th>
+        <th scope="col" class="text-center">Quantity</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each cart.products}}
+      <tr>
+        <td class="text-start">{{this.product.title}}</td>
+        <td class="text-center">${{this.product.price}}</td>
+        <td class="text-center">{{this.quantity}}</td>
+      </tr>
+      {{/each}}
+      {{#if cart}}
+      <form id="finish-order-form">
+        <button type="submit">Finalizar compra</button>
+      </form>
+      {{/if}}
+    </tbody>
+  </table>
 </div>
+
+<script>
+const form = document.getElementById('finish-order-form')
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const response = await fetch(`/api/cart/{{cart._id}}/purchase`, {
+    method: 'POST'
+  })
+  if(!response.ok) {
+    alert('No se ha podido completar su compra debido a un error, reintente o contacte a un administrador.')
+    return
+  }
+  const body = await response.json()
+  console.log({body})
+  window.location.assign('/ticket/' + body.ticket.code)
+})
+</script>

@@ -8,16 +8,16 @@
         <div class=>         
           <div class=" cardsBorder-dashboard col-4">
             
-            {{#each ticket}}            
+            {{#each ticket.products as |product|}}            
               <div class="card-body">  
-                <p class="card-text"> {{idProduct.title}} </p> 
-                <p class="card-text">  Cantidad:  {{quantity}} </p>
+                <p class="card-text"> {{product.idProduct.title}} </p> 
+                <p class="card-text">  Cantidad:  {{product.quantity}} </p>
               </div>
             {{/each}}
             <p class="card-text"><b>TOTAL</b>  ${{totalCart}}</p>
           </div>          
         </div>
       </div>
-      <a style="text-align: left" href='/productsToCart'>Volver</a>
+      <a style="text-align: left" href='/'>Volver</a>
     </div>
 </div>  
