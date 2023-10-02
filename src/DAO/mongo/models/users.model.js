@@ -41,10 +41,10 @@ const userSchema = new Schema({
     type: String,
     required: false
   },
-  lastInteraction: {
+  lastConnection: {
     type: Date,
     required: false,
-    default: new Date()
+    default: null
   }
 }, { versionKey: false, timestamps: true })
 

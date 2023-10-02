@@ -1,5 +1,6 @@
 import UserDTO from '../DAO/DTO/user.DTO.js'
 import UserService from '../services/UserService.js'
+import { transporter } from '../configuration/nodemailer.js'
 
 class UserController {
   registrationLocal (req, res) {
@@ -11,17 +12,22 @@ class UserController {
     res.status(200).json({ message: 'User registered' })
   }
 
-  loginLocal (req, res) {
+  async loginLocal (req, res) {
     if (!req.user) {
       return res.json({ error: 'Invalid credentials' })
     }
     req.session.user = { _id: req.user._id, email: req.user.email, name: req.user.name, lastname: req.user.lastname, currentCartId: req.user.currentCartId, role: req.user.role }
-
+    await UserService.updateUser(req.user._id, {
+      lastConnection: new Date()
+    })
     res.redirect('/')
   }
 
-  loginGitHub (req, res) {
+  async loginGitHub (req, res) {
     req.session.user = req.user
+    await UserService.updateUser(req.user._id, {
+      lastConnection: new Date()
+    })
     res.redirect('/')
   }
 
@@ -31,8 +37,12 @@ class UserController {
     res.json(DTO)
   }
 
-  deleteSession (req, res) {
+  async deleteSession (req, res) {
+    await UserService.updateUser(req.user._id, {
+      lastConnection: new Date()
+    })
     req.session.destroy()
+
     res.redirect('/login')
   }
 
@@ -50,7 +60,14 @@ class UserController {
 
   async deleteAllInactiveUsers (req, res) {
     try {
-      await UserService.deleteInactiveUsers()
+      const userEmailsDeleted = await UserService.deleteInactiveUsers()
+      console.log({ userEmailsDeleted })
+      transporter.sendMail({
+        to: userEmailsDeleted,
+        subject: 'Su cuenta ha sido desactivada por inactividad.',
+        text: 'Buenos dias/tardes, su cuenta ha sido desactivada por inactividad.',
+        textEncoding: 'utf-8'
+      })
       res.status(204).send()
     } catch (error) {
       res.status(500).json({

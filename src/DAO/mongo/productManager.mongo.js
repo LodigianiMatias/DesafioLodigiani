@@ -60,15 +60,17 @@ class ProductManager {
     product.stock = parseInt(product.stock)
     product.code = parseInt(product.code)
     product.status = product.status ?? true
-
-    const newProduct = await ProductModel.create(product).orFail(
+    let newProduct = null
+    try {
+      newProduct = await ProductModel.create(product)
+    } catch (error) {
       customError.createError({
         name: 'Create Error',
         cause: 'Mongo',
         message: 'Could not create the product',
         code: EErrors.PRODUCT_ERROR
       })
-    )
+    }
     return newProduct
   }
 
