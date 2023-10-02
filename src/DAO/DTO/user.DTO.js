@@ -5,5 +5,11 @@ export default class UserDTO {
     this.email = user.email
     this.currentCartId = user.currentCartId
     this.role = user.role
+    this.lastConnection = user.lastConnection
+    this.documents = user.documents
+  }
+
+  build () {
+    return this
   }
 }

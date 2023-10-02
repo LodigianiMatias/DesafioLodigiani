@@ -45,6 +45,20 @@ const userSchema = new Schema({
     type: Date,
     required: false,
     default: null
+  },
+  documents: {
+    type: [{
+      name: {
+        type: String,
+        required: true
+      },
+      reference: {
+        type: String,
+        required: true
+      }
+    }],
+    required: false,
+    default: []
   }
 }, { versionKey: false, timestamps: true })
 

@@ -1,3 +1,4 @@
+import { ROLES } from '../DAO/mongo/models/users.model.js'
 import UserDTO from '../DAO/DTO/user.DTO.js'
 import UserService from '../services/UserService.js'
 import { transporter } from '../configuration/nodemailer.js'
@@ -16,16 +17,16 @@ class UserController {
     if (!req.user) {
       return res.json({ error: 'Invalid credentials' })
     }
-    req.session.user = { _id: req.user._id, email: req.user.email, name: req.user.name, lastname: req.user.lastname, currentCartId: req.user.currentCartId, role: req.user.role }
-    await UserService.updateUser(req.user._id, {
+    req.session.user = { ...req.user, products: req.user.documents.map(doc => doc.name) }
+    await UserService.updateUser(req.session.user._id, {
       lastConnection: new Date()
     })
     res.redirect('/')
   }
 
   async loginGitHub (req, res) {
-    req.session.user = req.user
-    await UserService.updateUser(req.user._id, {
+    req.session.user = { ...req.user, products: req.user.documents.map(doc => doc.name) }
+    await UserService.updateUser(req.session.user._id, {
       lastConnection: new Date()
     })
     res.redirect('/')
@@ -33,12 +34,13 @@ class UserController {
 
   currentSession (req, res) {
     const user = req.session.user
-    const DTO = new UserDTO(user)
+    const DTO = new UserDTO(user).build()
     res.json(DTO)
   }
 
   async deleteSession (req, res) {
-    await UserService.updateUser(req.user._id, {
+    console.log({ user: req.session.user })
+    await UserService.updateUser(req.session.user._id, {
       lastConnection: new Date()
     })
     req.session.destroy()
@@ -49,7 +51,7 @@ class UserController {
   async getAllUsers (req, res) {
     try {
       const users = await UserService.getUsers()
-      const usersDto = users.map(user => new UserDTO(user))
+      const usersDto = users.map(user => new UserDTO(user).build())
       res.status(200).json(usersDto)
     } catch (error) {
       res.status(500).json({
@@ -69,6 +71,21 @@ class UserController {
         textEncoding: 'utf-8'
       })
       res.status(204).send()
+    } catch (error) {
+      res.status(500).json({
+        error: 'Internal Server Error'
+      })
+    }
+  }
+
+  async upgradeUser (req, res) {
+    try {
+      const { uid } = req.params
+      const updated = await UserService.updateUser(uid, {
+        role: ROLES.USER_PREMIUM
+      })
+      const userDTO = new UserDTO(updated).build()
+      res.status(200).json(userDTO)
     } catch (error) {
       res.status(500).json({
         error: 'Internal Server Error'

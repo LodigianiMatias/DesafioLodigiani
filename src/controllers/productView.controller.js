@@ -35,10 +35,13 @@ class ProductViewController {
       const productsPaginated = await ProductModel.paginate({}, { limit: limit || 3, page: page || 1, query: query || null, sort: sort || null })
       const { docs, ...rest } = productsPaginated
       const userSession = req.session.user
+      console.log({ userSession })
       if (userSession.role === ROLES.ADMIN) {
         userSession.isAdmin = true
       } else if (userSession.role === ROLES.USER) {
         userSession.isUser = true
+      } else if (userSession.role === ROLES.USER_PREMIUM) {
+        userSession.isUserPremium = true
       }
       const products = docs.map((item) => {
         return { _id: item._id, title: item.title, desc: item.desc, thumbnails: item.thumbnails, price: item.price }

@@ -17,7 +17,7 @@
   <body>
   {{#if user}}
     {{>navbar}}
-    <h1 class="text-center">Bienvenid@ {{user.name}} {{user.lastname}}</h1>
+    <h1 class="text-center">Bienvenid@ {{user.name}} {{user.lastname}} ({{user.role}})</h1>
   {{/if}}
   {{{body}}}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.6.1/toastify.js"></script>
