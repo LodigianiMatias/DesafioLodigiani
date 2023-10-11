@@ -9,8 +9,8 @@ const productSchema = new Schema({
   thumbnails: { type: String },
   code: { type: Number, required: true, max: 1000000000000, unique: true },
   stock: { type: Number, required: true, max: 1000000000000 },
-  status: { type: Boolean, default: true }
-
+  status: { type: Boolean, default: true },
+  owner: { type: Schema.Types.ObjectId, ref: 'Users', required: true }
 }, {
   strict: true
 })

@@ -13,6 +13,7 @@ class ProductViewController {
       })
       return res.status(200).render('realTimeProducts', { name: 'WebSocket', products, pagination: rest })
     } catch (err) {
+      console.log(err)
       res.status(400).json({
         error: 'Could not get the product list'
       })
@@ -32,22 +33,29 @@ class ProductViewController {
   async viewProducts (req, res) {
     try {
       const { page, limit, query, sort } = req.query
-      const productsPaginated = await ProductModel.paginate({}, { limit: limit || 3, page: page || 1, query: query || null, sort: sort || null })
+      console.log(req.session.user)
+      const productsPaginated = await ProductModel.paginate({
+        owner: {
+          $ne: req.session.user._id
+        }
+      }, { limit: limit || 3, page: page || 1, query: query || null, sort: sort || null })
       const { docs, ...rest } = productsPaginated
       const userSession = req.session.user
-      console.log({ userSession })
+      const permissions = {
+        isAdmin: false,
+        isUserPremium: false
+      }
       if (userSession.role === ROLES.ADMIN) {
-        userSession.isAdmin = true
-      } else if (userSession.role === ROLES.USER) {
-        userSession.isUser = true
+        permissions.isAdmin = true
       } else if (userSession.role === ROLES.USER_PREMIUM) {
-        userSession.isUserPremium = true
+        permissions.isUserPremium = true
       }
       const products = docs.map((item) => {
-        return { _id: item._id, title: item.title, desc: item.desc, thumbnails: item.thumbnails, price: item.price }
+        return { _id: item._id, title: item.title, desc: item.desc, thumbnails: item.thumbnails, price: item.price, owner: String(item.owner) }
       })
-      return res.status(200).render('index', { name: 'Página de inicio', products, pagination: rest, user: userSession })
+      return res.status(200).render('index', { name: 'Página de inicio', products, pagination: rest, user: userSession, isAdmin: permissions.isAdmin, isUserPremium: permissions.isUserPremium })
     } catch (err) {
+      console.log(err)
       res.status(400).json({
         error: 'Could not get the product list'
       })

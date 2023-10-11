@@ -38,16 +38,7 @@ connectMongo()
 
 // HANDLEBARS
 
-app.engine('handlebars', handlebars.engine({
-  helpers: {
-    inArray (element, array) {
-      return array.includes(element)
-    },
-    notInArray (element, array) {
-      return !array.includes(element)
-    }
-  }
-}))
+app.engine('handlebars', handlebars.engine())
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'handlebars')
 

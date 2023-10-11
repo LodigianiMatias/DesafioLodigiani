@@ -17,7 +17,7 @@ class UserController {
     if (!req.user) {
       return res.json({ error: 'Invalid credentials' })
     }
-    req.session.user = { ...req.user, products: req.user.documents.map(doc => doc.name) }
+    req.session.user = { ...req.user }
     await UserService.updateUser(req.session.user._id, {
       lastConnection: new Date()
     })
@@ -25,7 +25,10 @@ class UserController {
   }
 
   async loginGitHub (req, res) {
-    req.session.user = { ...req.user, products: req.user.documents.map(doc => doc.name) }
+    if (!req.user) {
+      return res.json({ error: 'Invalid credentials' })
+    }
+    req.session.user = { ...req.user }
     await UserService.updateUser(req.session.user._id, {
       lastConnection: new Date()
     })
@@ -39,13 +42,17 @@ class UserController {
   }
 
   async deleteSession (req, res) {
-    console.log({ user: req.session.user })
-    await UserService.updateUser(req.session.user._id, {
-      lastConnection: new Date()
-    })
-    req.session.destroy()
-
-    res.redirect('/login')
+    try {
+      console.log({ user: req.session })
+      await UserService.updateUser(req.session.user._id, {
+        lastConnection: new Date()
+      })
+    } catch (err) {
+      console.log('Session has been expired.')
+    } finally {
+      req.session.destroy()
+      res.redirect('/login')
+    }
   }
 
   async getAllUsers (req, res) {

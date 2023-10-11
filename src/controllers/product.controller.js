@@ -51,7 +51,7 @@ class ProductController {
       if (req.file) {
         req.body.thumbnails = `/thumbnails/${req.file.filename}`
       }
-      const product = await productManager.addProduct(productToAdd)
+      const product = await productManager.addProduct(productToAdd, req.session.user)
       res.status(200).json({
         success: true,
         message: 'Product succesfully added',
