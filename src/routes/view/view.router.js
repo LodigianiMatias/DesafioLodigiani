@@ -1,5 +1,6 @@
 import { hasRoles, isUser } from '../../middlewares/roles.middleware.js'
 
+import { ROLES } from '../../DAO/mongo/models/users.model.js'
 import { Router } from 'express'
 import carts from './cart.view.router.js'
 import failLoginRouter from './faillogin.router.js'
@@ -15,14 +16,13 @@ import realTimeChat from './chat.router.js'
 import realTimeRouter from './realtime.router.js'
 import registerRouter from './register.router.js'
 import ticketViewRouter from './ticker.router.js'
-import { ROLES } from '../../DAO/mongo/models/users.model.js'
 
 const router = Router()
 
 router.use('/realtimeproducts', isLoguedIn, realTimeRouter)
 router.use('/chat', isLoguedIn, isUser, realTimeChat)
 router.use('/loggerTest', loggerRouter)
-router.use('/cart', isLoguedIn, isUser, carts)
+router.use('/cart', isLoguedIn, hasRoles([ROLES.USER, ROLES.USER_PREMIUM]), carts)
 router.use('/products', isLoguedIn, productRouter)
 router.use('/login', loginRouter)
 router.use('/register', registerRouter)

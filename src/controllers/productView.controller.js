@@ -34,7 +34,7 @@ class ProductViewController {
       const { page, limit, query, sort } = req.query
       const productsPaginated = await ProductModel.paginate({}, { limit: limit || 3, page: page || 1, query: query || null, sort: sort || null })
       const { docs, ...rest } = productsPaginated
-      const userSession = req.user
+      const userSession = JSON.parse(JSON.stringify(req.user))
       if (userSession.role === ROLES.ADMIN) {
         userSession.isAdmin = true
       } else if (userSession.role === ROLES.USER) {
