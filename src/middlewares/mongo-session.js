@@ -9,11 +9,11 @@ export const mongoSession = session({
   store: MongoStore.create({
     mongoUrl: process.env.MONGO_URL,
     autoRemove: 'native',
-    ttl: 180
+    ttl: 60 * 60
   }),
   resave: true,
   saveUninitialized: true,
   cookie: {
-    maxAge: 60000
+    maxAge: 60000 * 60
   }
 })

@@ -1,6 +1,6 @@
 <h1 style="text-align: center;" class="mt-2">Lista de Productos</h1>
 
-{{#if isAdmin}}
+{{#if user.isAdmin}}
 <div class="d-flex justify-content-center mb-2">
   <a href="/formproducts" class="fs-3"> Ir a agregar productos </a>
 </div>
@@ -22,12 +22,32 @@
   </li>
   {{/each}}
 </ul>
-{{else}}
-<div class="d-flex justify-content-center mb-2">
-  <a href="/formproducts" class="fs-3"> Ir a agregar productos </a>
-</div>
-
-<ul id="ulContainer" style="display: flex; justify-content: space-between; flex-wrap: wrap; width: 80%; position: relative; left: 10%;" >
+{{/if}}
+{{#if user.isUser}}
+  <ul id="ulContainer" style="display: flex; justify-content: space-between; flex-wrap: wrap; width: 80%; position: relative; left: 10%;" >
+    {{#each products as |product|}}
+    {{log product}}
+    <li id={{product._id}}>
+      <div  class="card my-2 mx-2" style="width: 18rem; flex-grow: 1;">
+        <img src="{{product.thumbnails}}" class="card-img-top" alt="Imagen ilustrativa" id="imageRealTime">
+        <div class="card-body">
+          <a href="{{product._id}}" class="card-title nav-link"><h5 class="text-center" id="titleRealTime">{{product.title}}</h5></a>
+          <p class="card-text text-center" id="descRealTime">{{product.desc}}</p>
+          <p class="card-text text-center pb-2" id="priceRealTime">Price: ${{product.price}}</p>
+          <div class="mx-2 mb-2 d-flex justify-content-around">
+            <a href="#" class="btn btn-secondary" onclick='addProduct("{{product._id}}")'>Add to cart</a>          
+          </div>
+        </div>
+      </div>
+    </li>
+    {{/each}}
+  </ul>
+{{/if}}
+{{#if user.isUserPremium}}
+  <div class="d-flex justify-content-center mb-2">
+    <a href="/formproducts" class="fs-3"> Ir a agregar productos </a>
+  </div>
+  <ul id="ulContainer" style="display: flex; justify-content: space-between; flex-wrap: wrap; width: 80%; position: relative; left: 10%;" >
     {{#each products as |product|}}
     <li id={{product._id}}>
       <div  class="card my-2 mx-2" style="width: 18rem; flex-grow: 1;">
@@ -37,23 +57,46 @@
           <p class="card-text text-center" id="descRealTime">{{product.desc}}</p>
           <p class="card-text text-center pb-2" id="priceRealTime">Price: ${{product.price}}</p>
           <div class="mx-2 mb-2 d-flex justify-content-around">
-              <a href="#" class="btn btn-secondary" onclick='addProduct("{{product._id}}")'>Add to cart Premium</a>          
+              <a href="#" class="btn btn-secondary" onclick='addProduct("{{product._id}}")'>Add to cart</a>
           </div>
         </div>
       </div>
     </li>
     {{/each}}
+    {{#if ownProducts}}
+    {{#each ownProducts as |product|}}
+    <li id={{product._id}}>
+      <div  class="card my-2 mx-2" style="width: 18rem; flex-grow: 1;">
+        <img src="{{product.thumbnails}}" class="card-img-top" alt="Imagen ilustrativa" id="imageRealTime">
+        <div class="card-body">
+          <a href="{{product._id}}" class="card-title nav-link"><h5 class="text-center" id="titleRealTime">{{product.title}}</h5></a>
+          <p class="card-text text-center" id="descRealTime">{{product.desc}}</p>
+          <p class="card-text text-center pb-2" id="priceRealTime">Price: ${{product.price}}</p>
+          <div class="mx-2 mb-2 d-flex justify-content-around">
+              <a href="#" class="btn btn-danger" onclick='eliminateProduct("{{product._id}}")'>Delete</a> 
+          </div>
+        </div>
+      </div>
+    </li>
+    {{/each}}
+    {{/if}}
   </ul>
 {{/if}}
+
 {{>pagination}}
 
 <script>
 
   async function addProduct(productId) {
     try {
-      const session = await fetch('/api/session/current', {
+      const sessionResponse = await fetch('/api/session/current', {
         method: "GET"
-      }).then(res => res.json())
+      })
+
+      if(sessionResponse.redirected) {
+        window.location.assign(sessionResponse.url)
+      }
+      const session = await sessionResponse.json()
       const response = await fetch('/api/cart/'+session.currentCartId+'/products/'+productId, {
       method: "POST"
       })
@@ -69,7 +112,7 @@
           gravity: "bottom",
           position: "right",
           stopOnFocus: true,
-}).showToast();
+        }).showToast();
       }
     } catch (err) {
       console.log(err)

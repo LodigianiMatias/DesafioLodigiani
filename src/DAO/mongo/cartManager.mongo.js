@@ -14,7 +14,7 @@ class CartManager {
     try {
       return await CartModel.create({})
     } catch (err) {
-      console.log(err.message)
+      console.log('Error creating cart')
     }
   }
 

@@ -13,7 +13,6 @@ class ProductViewController {
       })
       return res.status(200).render('realTimeProducts', { name: 'WebSocket', products, pagination: rest })
     } catch (err) {
-      console.log(err)
       res.status(400).json({
         error: 'Could not get the product list'
       })
@@ -33,27 +32,27 @@ class ProductViewController {
   async viewProducts (req, res) {
     try {
       const { page, limit, query, sort } = req.query
-      console.log(req.session.user)
-      const productsPaginated = await ProductModel.paginate({
-        owner: {
-          $ne: req.session.user._id
-        }
-      }, { limit: limit || 3, page: page || 1, query: query || null, sort: sort || null })
+      const productsPaginated = await ProductModel.paginate({}, { limit: limit || 3, page: page || 1, query: query || null, sort: sort || null })
       const { docs, ...rest } = productsPaginated
-      const userSession = req.session.user
-      const permissions = {
-        isAdmin: false,
-        isUserPremium: false
-      }
+      const userSession = req.user
       if (userSession.role === ROLES.ADMIN) {
-        permissions.isAdmin = true
+        userSession.isAdmin = true
+      } else if (userSession.role === ROLES.USER) {
+        userSession.isUser = true
       } else if (userSession.role === ROLES.USER_PREMIUM) {
-        permissions.isUserPremium = true
+        userSession.isUserPremium = true
       }
-      const products = docs.map((item) => {
-        return { _id: item._id, title: item.title, desc: item.desc, thumbnails: item.thumbnails, price: item.price, owner: String(item.owner) }
+      let products = JSON.parse(JSON.stringify(docs))
+      const ownProducts = products.filter(product => {
+        console.log(product.owner, userSession._id)
+        return product.owner === String(userSession._id)
       })
-      return res.status(200).render('index', { name: 'Página de inicio', products, pagination: rest, user: userSession, isAdmin: permissions.isAdmin, isUserPremium: permissions.isUserPremium })
+
+      if (userSession.isUserPremium) {
+        products = products.filter(product => product.owner !== String(userSession._id))
+      }
+      // console.log({ ownProducts, products })
+      return res.status(200).render('index', { name: 'Página de inicio', products, ownProducts, pagination: rest, user: userSession })
     } catch (err) {
       console.log(err)
       res.status(400).json({
