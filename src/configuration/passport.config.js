@@ -43,7 +43,7 @@ const initializePassport = () => {
       async (req, username, password, done) => {
         try {
           const { email, name, lastname, age, currentCartId } = req.body
-          const user = await UsersModel.findOne({ email: username })
+          const user = await UsersModel.findOne({ email: username }).lean()
           if (user) {
             return done(null, false)
           }
@@ -56,7 +56,7 @@ const initializePassport = () => {
             currentCartId,
             password: createHash(password)
           }
-          const userCreated = await UsersModel.create(newUser)
+          const userCreated = await UsersModel.create(newUser).lean()
           return done(null, userCreated)
         } catch (e) {
           console.log(e)
@@ -92,7 +92,7 @@ const initializePassport = () => {
           profile.email = emailDetail.email
 
           const currentCartId = await CartModel.create({})
-          const user = await UsersModel.findOne({ email: profile.email })
+          const user = await UsersModel.findOne({ email: profile.email }).lean()
           if (!user) {
             const newUser = {
               email: profile.email,
@@ -101,7 +101,7 @@ const initializePassport = () => {
               password: 'nopass',
               currentCartId: currentCartId._id
             }
-            const userCreated = await UsersModel.create(newUser)
+            const userCreated = await UsersModel.create(newUser).lean()
             return done(null, userCreated)
           } else {
             return done(null, user)

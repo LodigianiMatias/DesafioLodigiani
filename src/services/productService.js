@@ -7,8 +7,9 @@ class ProductService {
     return await ProductManager.getProducts(queryParams)
   }
 
-  async addProduct (product) {
-    return await ProductManager.addProduct(product)
+  async addProduct (product, user) {
+    const userId = user._id
+    return await ProductManager.addProduct(product, userId)
   }
 
   async getProductById (pid) {

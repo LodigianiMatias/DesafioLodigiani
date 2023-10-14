@@ -12,9 +12,9 @@ class CartManager {
 
   async createCart () {
     try {
-      return await CartModel.create({}).orFail(new Error('Error creating cart'))
+      return await CartModel.create({})
     } catch (err) {
-      console.log(err.message)
+      console.log('Error creating cart')
     }
   }
 

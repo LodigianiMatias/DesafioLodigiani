@@ -1,3 +1,4 @@
+import { logger } from '../utils/logger.utils.js'
 import userManager from '../DAO/mongo/userManager.mongo.js'
 
 class UserService {
@@ -17,8 +18,22 @@ class UserService {
     return await userManager.getUserByEmail(email)
   }
 
+  async updateUser (id, data) {
+    try {
+      return await userManager.updateUser(id, data)
+    } catch (error) {
+      logger.error(error.message)
+      throw error
+    }
+  }
+
   async deleteInactiveUsers () {
-    await userManager.deleteAllInactiveUsers()
+    try {
+      return await userManager.deleteAllInactiveUsers()
+    } catch (error) {
+      logger.error(error.message)
+      throw error
+    }
   }
 }
 

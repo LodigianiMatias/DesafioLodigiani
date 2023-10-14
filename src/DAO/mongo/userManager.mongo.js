@@ -1,4 +1,5 @@
-import { UsersModel } from './models/users.model.js'
+import { ROLES, UsersModel } from './models/users.model.js'
+
 import bcrypt from 'bcrypt'
 
 class UserManager {
@@ -46,13 +47,20 @@ class UserManager {
 
   async deleteAllInactiveUsers () {
     try {
-      const today = new Date()
-      const usersDeleted = await UsersModel
-        .deleteMany({}, { returnDocument: true })
-        .where('lastInteraction')
-        .lte(today.setDate(today.getDate() - 2))
-      console.log({ usersDeleted })
-      // TODO: SEND EMAIL TO USERS DELETED
+      const twoDaysAgo = new Date(Date.now() - 2) // 2 minutos atrás
+      const usersToDelete = await UsersModel.find({
+        lastConnection: {
+          $lte: twoDaysAgo // LastInteraction menor o igual a 2 dias atrás
+        },
+        role: {
+          $ne: ROLES.ADMIN // role no es igual a 'admin'
+        }
+      })
+      const emails = usersToDelete.map(user => user.email)
+      await UsersModel.deleteMany({
+        _id: { $in: usersToDelete.map((user) => user._id) }
+      })
+      return emails
     } catch (error) {
       console.log(error.message)
     }
