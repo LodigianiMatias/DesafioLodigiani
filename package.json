@@ -30,7 +30,7 @@
   "main": "./src/server.js",
   "type": "module",
   "engines": {
-    "node": "16.x"
+    "node": "18.x"
   },
   "scripts": {
     "dev": "nodemon -e yaml,js src/server.js",

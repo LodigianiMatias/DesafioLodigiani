@@ -23,7 +23,7 @@ if (cluster.isPrimary) {
   console.log('Numero de hilos: ' + numProcess)
 }
 
-const PORT = 8080
+const PORT = process.env.PORT || 8080
 const app = express()
 
 // COMPRESSION
